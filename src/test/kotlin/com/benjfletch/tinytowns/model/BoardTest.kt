@@ -10,9 +10,9 @@ class BoardTest {
     fun `Populates an empty board on initialisation`() {
         val board = Board()
         assertThat(board.locations).hasSize(16)
-        assertThat(board.locations.values).allMatch { it == Content(null) }
+        assertThat(board.locations.values).allMatch { it == null }
 
-        val possibleCoordinates = (1..4).flatMap { x -> (1..4).map { y -> x to y} }
+        val possibleCoordinates = (0 until 4).flatMap { x -> (0 until 4).map { y -> Location(x, y) } }
         assertThat(board.locations.keys).containsExactlyInAnyOrderElementsOf(possibleCoordinates)
     }
 
@@ -41,5 +41,42 @@ class BoardTest {
         assertThatCode { Board(-100) }
                 .isInstanceOf(BoardException::class.java)
                 .hasMessage("Board size -100 is invalid. Must be > 1.")
+    }
+
+    @Test
+    fun `Can place Resource at provided location`() {
+        val board = Board()
+        val resource = Resource.BRICK
+        board.place(Location(0, 0), resource)
+
+        assertThat(board.locations[Location(0, 0)]).isEqualTo(resource)
+    }
+
+    @Test
+    fun `Errors when placing to a which location is not on the board`() {
+        val board = Board()
+        val resource = Resource.BRICK
+        assertThrowsBoardException("Cannot place ${resource.pieceName} at -1:0. Out of bounds.") { board.place(Location(-1, 0), resource) }
+        assertThrowsBoardException("Cannot place ${resource.pieceName} at 0:-1. Out of bounds.") { board.place(Location(0, -1), resource) }
+        assertThrowsBoardException("Cannot place ${resource.pieceName} at -1:-1. Out of bounds.") { board.place(Location(-1, -1), resource) }
+        assertThrowsBoardException("Cannot place ${resource.pieceName} at 5:0. Out of bounds.") { board.place(Location(5, 0 ), resource) }
+        assertThrowsBoardException("Cannot place ${resource.pieceName} at 0:5. Out of bounds.") { board.place(Location(0, 5), resource) }
+        assertThrowsBoardException("Cannot place ${resource.pieceName} at 5:5. Out of bounds.") { board.place(Location(5, 5), resource) }
+    }
+
+    @Test
+    fun `Errors when placing an object on an occupied location`() {
+        val board = Board()
+        val resource = Resource.BRICK
+        board.place(Location(0, 0), resource)
+
+        assertThrowsBoardException("Cannot place ${resource.pieceName} at 0:0. Place occupied.") { board.place(Location(0, 0), resource) }
+    }
+
+    private fun assertThrowsBoardException(message: String, code: () -> Unit) {
+        assertThatCode { code.invoke() }
+                .isInstanceOf(BoardException::class.java)
+                .hasMessage(message)
+
     }
 }
