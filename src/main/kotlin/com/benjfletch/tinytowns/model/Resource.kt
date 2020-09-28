@@ -6,4 +6,5 @@ enum class Resource(override val pieceName: String): GamePiece {
     STONE("stone"),
     WOOD("wood"),
     WHEAT("wheat"),
+    NONE("none"),
 }
