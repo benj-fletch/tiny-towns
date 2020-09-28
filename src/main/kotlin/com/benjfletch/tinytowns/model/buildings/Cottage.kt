@@ -1,6 +1,7 @@
-package com.benjfletch.tinytowns.model
+package com.benjfletch.tinytowns.model.buildings
 
 import com.benjfletch.tinytowns.model.Resource.*
+import com.benjfletch.tinytowns.model.Shape
 
 /** The most basic [Building] - Cottage. */
 class Cottage: Building {

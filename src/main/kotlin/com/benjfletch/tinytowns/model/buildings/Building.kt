@@ -1,4 +1,7 @@
-package com.benjfletch.tinytowns.model
+package com.benjfletch.tinytowns.model.buildings
+
+import com.benjfletch.tinytowns.model.GamePiece
+import com.benjfletch.tinytowns.model.Shape
 
 /** Specification of [GamePiece] for a constructed building. */
 interface Building: GamePiece {

@@ -10,7 +10,7 @@ class BoardTest {
     fun `Populates an empty board on initialisation`() {
         val board = Board()
         assertThat(board.locations).hasSize(16)
-        assertThat(board.locations.values).allMatch { it == null }
+        assertThat(board.locations.values).allMatch { it is EmptySpace }
 
         val possibleCoordinates = (0 until 4).flatMap { x -> (0 until 4).map { y -> Location(x, y) } }
         assertThat(board.locations.keys).containsExactlyInAnyOrderElementsOf(possibleCoordinates)
@@ -44,7 +44,7 @@ class BoardTest {
     }
 
     @Test
-    fun `Can place Resource at provided location`() {
+    fun `Places Resource at provided location`() {
         val board = Board()
         val resource = Resource.BRICK
         board.place(Location(0, 0), resource)
@@ -53,7 +53,7 @@ class BoardTest {
     }
 
     @Test
-    fun `Errors when placing to a which location is not on the board`() {
+    fun `Throws Exception when placing to a which location is not on the board`() {
         val board = Board()
         val resource = Resource.BRICK
         assertThrowsBoardException("Cannot place ${resource.pieceName} at -1:0. Out of bounds.") { board.place(Location(-1, 0), resource) }
@@ -65,7 +65,7 @@ class BoardTest {
     }
 
     @Test
-    fun `Errors when placing an object on an occupied location`() {
+    fun `Throws Exception when placing an object on an occupied location`() {
         val board = Board()
         val resource = Resource.BRICK
         board.place(Location(0, 0), resource)

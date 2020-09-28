@@ -54,4 +54,18 @@ class ShapeTest {
                 .isInstanceOf(ShapeException::class.java)
                 .hasMessage("Invalid Shape. All columns must be populated with a Resource type.")
     }
+
+    @Test
+    fun `Can evaluate equals()`() {
+        assertThat(squareMatrixOne.equals(squareMatrixOne)).isTrue()
+        assertThat(squareMatrixOne.equals(squareMatrixTwo)).isFalse()
+        assertThat(rectangleMatrixThree.equals(rectangleMatrixThree)).isTrue()
+    }
+
+    @Test
+    fun `Can evaluate hashCodes`() {
+        assertThat(squareMatrixOne.hashCode().equals(squareMatrixOne.hashCode())).isTrue()
+        assertThat(squareMatrixOne.hashCode().equals(squareMatrixTwo.hashCode())).isFalse()
+        assertThat(rectangleMatrixThree.hashCode().equals(rectangleMatrixThree.hashCode())).isTrue()
+    }
 }
