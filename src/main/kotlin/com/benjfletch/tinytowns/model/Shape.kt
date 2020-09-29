@@ -41,21 +41,5 @@ data class Shape(val matrix: ResourceMatrix) {
         return listOf(up, right, down, left)
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Shape
-
-        if (!matrix.contentDeepEquals(other.matrix)) return false
-        if (orientations != other.orientations) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = matrix.contentDeepHashCode()
-        result = 31 * result + orientations.hashCode()
-        return result
-    }
+    fun matches(other: ResourceMatrix) = orientations.contains(other)
 }

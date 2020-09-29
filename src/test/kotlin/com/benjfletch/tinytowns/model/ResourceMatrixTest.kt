@@ -16,21 +16,21 @@ import org.junit.jupiter.params.provider.MethodSource
 class ResourceMatrixTest {
     @Test
     fun `Transpose correctly transposes square matrix`() {
-        val input: ResourceMatrix = arrayOf(
-                arrayOf(NONE, WHEAT),
-                arrayOf(BRICK, GLASS))
-        val expected = arrayOf(
-                arrayOf(NONE, BRICK),
-                arrayOf(WHEAT, GLASS))
+        val input: ResourceMatrix = listOf(
+                listOf(NONE, WHEAT),
+                listOf(BRICK, GLASS))
+        val expected = listOf(
+                listOf(NONE, BRICK),
+                listOf(WHEAT, GLASS))
         assertThat(transpose(input)).isEqualTo(expected)
     }
 
     @Test
     fun `Transpose correctly transposes rectangular matrix`() {
-        val input: ResourceMatrix = arrayOf(arrayOf(WOOD, STONE))
-        val expected = arrayOf(
-                arrayOf(WOOD),
-                arrayOf(STONE))
+        val input: ResourceMatrix = listOf(listOf(WOOD, STONE))
+        val expected = listOf(
+                listOf(WOOD),
+                listOf(STONE))
         assertThat(transpose(input)).isEqualTo(expected)
     }
 
@@ -41,27 +41,27 @@ class ResourceMatrixTest {
     }
 
     companion object {
-        val woodStone = arrayOf(WOOD, STONE)
-        val woodWood = arrayOf(WOOD, WOOD)
-        val stoneStone = arrayOf(STONE, STONE)
-        val wood = arrayOf(WOOD)
-        val stone = arrayOf(STONE)
+        val woodStone = listOf(WOOD, STONE)
+        val woodWood = listOf(WOOD, WOOD)
+        val stoneStone = listOf(STONE, STONE)
+        val wood = listOf(WOOD)
+        val stone = listOf(STONE)
         @JvmStatic
         fun matrices(): List<Arguments> = listOf(
-                Arguments.of(arrayOf(stone), arrayOf(stone)),
-                Arguments.of(arrayOf(woodStone), arrayOf(wood, stone)),
-                Arguments.of(arrayOf(stone, wood), arrayOf(woodStone)),
-                Arguments.of(arrayOf(woodStone, woodStone), arrayOf(woodWood, stoneStone)),
-                Arguments.of(arrayOf(stone, wood, stone), arrayOf(arrayOf(STONE, WOOD, STONE))),
-                Arguments.of(arrayOf(
-                        arrayOf(STONE, WOOD, WHEAT),
-                        arrayOf(BRICK, GLASS, NONE),
-                        arrayOf(NONE, GLASS, BRICK)
+                Arguments.of(listOf(stone), listOf(stone)),
+                Arguments.of(listOf(woodStone), listOf(wood, stone)),
+                Arguments.of(listOf(stone, wood), listOf(woodStone)),
+                Arguments.of(listOf(woodStone, woodStone), listOf(woodWood, stoneStone)),
+                Arguments.of(listOf(stone, wood, stone), listOf(listOf(STONE, WOOD, STONE))),
+                Arguments.of(listOf(
+                        listOf(STONE, WOOD, WHEAT),
+                        listOf(BRICK, GLASS, NONE),
+                        listOf(NONE, GLASS, BRICK)
                 ),
-                arrayOf(
-                        arrayOf(NONE, BRICK, STONE),
-                        arrayOf(GLASS, GLASS, WOOD),
-                        arrayOf(BRICK, NONE, WHEAT)
+                listOf(
+                        listOf(NONE, BRICK, STONE),
+                        listOf(GLASS, GLASS, WOOD),
+                        listOf(BRICK, NONE, WHEAT)
                 )),
                 )
     }

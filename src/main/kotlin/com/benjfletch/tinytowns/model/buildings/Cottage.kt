@@ -4,11 +4,11 @@ import com.benjfletch.tinytowns.model.Resource.*
 import com.benjfletch.tinytowns.model.Shape
 
 /** The most basic [Building] - Cottage. */
-class Cottage: Building {
+object Cottage: Building {
     override val pieceName = "Cottage"
     override val text = "3 (Points) if this building is fed"
     override val canBeBuiltAnywhere = false
-    override val shape = Shape(arrayOf(
-        arrayOf(NONE, WHEAT),
-        arrayOf(BRICK, GLASS)))
+    override val shape = Shape(listOf(
+        listOf(NONE, WHEAT),
+        listOf(BRICK, GLASS)))
 }

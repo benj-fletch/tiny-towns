@@ -12,29 +12,29 @@ import org.assertj.core.api.Assertions.assertThatCode
 import org.junit.jupiter.api.Test
 
 class ShapeTest {
-    private val squareMatrixOne: ResourceMatrix = arrayOf(
-            arrayOf(NONE, WHEAT),
-            arrayOf(BRICK, GLASS))
-    private val squareMatrixTwo: ResourceMatrix = arrayOf(
-            arrayOf(BRICK, NONE),
-            arrayOf(GLASS, WHEAT))
-    private val squareMatrixThree: ResourceMatrix = arrayOf(
-            arrayOf(GLASS, BRICK),
-            arrayOf(WHEAT, NONE))
-    private val squareMatrixFour: ResourceMatrix = arrayOf(
-            arrayOf(WHEAT, GLASS),
-            arrayOf(NONE, BRICK))
+    private val squareMatrixOne: ResourceMatrix = listOf(
+            listOf(NONE, WHEAT),
+            listOf(BRICK, GLASS))
+    private val squareMatrixTwo: ResourceMatrix = listOf(
+            listOf(BRICK, NONE),
+            listOf(GLASS, WHEAT))
+    private val squareMatrixThree: ResourceMatrix = listOf(
+            listOf(GLASS, BRICK),
+            listOf(WHEAT, NONE))
+    private val squareMatrixFour: ResourceMatrix = listOf(
+            listOf(WHEAT, GLASS),
+            listOf(NONE, BRICK))
 
-    private val rectangleMatrixOne: ResourceMatrix = arrayOf(
-            arrayOf(WOOD, STONE))
-    private val rectangleMatrixTwo: ResourceMatrix = arrayOf(
-            arrayOf(WOOD),
-            arrayOf(STONE))
-    private val rectangleMatrixFour: ResourceMatrix = arrayOf(
-            arrayOf(STONE, WOOD))
-    private val rectangleMatrixThree: ResourceMatrix = arrayOf(
-            arrayOf(STONE),
-            arrayOf(WOOD))
+    private val rectangleMatrixOne: ResourceMatrix = listOf(
+            listOf(WOOD, STONE))
+    private val rectangleMatrixTwo: ResourceMatrix = listOf(
+            listOf(WOOD),
+            listOf(STONE))
+    private val rectangleMatrixFour: ResourceMatrix = listOf(
+            listOf(STONE, WOOD))
+    private val rectangleMatrixThree: ResourceMatrix = listOf(
+            listOf(STONE),
+            listOf(WOOD))
 
     @Test
     fun `Calculates orientations of square matrix correctly`() {
@@ -50,7 +50,7 @@ class ShapeTest {
 
     @Test
     fun `Throws exception when matrix is not fully populated`() {
-        assertThatCode { Shape(arrayOf(arrayOf(STONE), arrayOf())) }
+        assertThatCode { Shape(listOf(listOf(STONE), listOf())) }
                 .isInstanceOf(ShapeException::class.java)
                 .hasMessage("Invalid Shape. All columns must be populated with a Resource type.")
     }

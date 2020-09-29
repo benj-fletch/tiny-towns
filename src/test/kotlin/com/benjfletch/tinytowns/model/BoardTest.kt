@@ -1,6 +1,7 @@
 package com.benjfletch.tinytowns.model
 
 import com.benjfletch.tinytowns.BoardException
+import com.benjfletch.tinytowns.model.buildings.Cottage
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatCode
 import org.junit.jupiter.api.Test
@@ -9,20 +10,20 @@ class BoardTest {
     @Test
     fun `Populates an empty board on initialisation`() {
         val board = Board()
-        assertThat(board.locations).hasSize(16)
-        assertThat(board.locations.values).allMatch { it is EmptySpace }
+        assertThat(board.spaces).hasSize(16)
+        assertThat(board.spaces.values).allMatch { it is EmptySpace }
 
         val possibleCoordinates = (0 until 4).flatMap { x -> (0 until 4).map { y -> Location(x, y) } }
-        assertThat(board.locations.keys).containsExactlyInAnyOrderElementsOf(possibleCoordinates)
+        assertThat(board.spaces.keys).containsExactlyInAnyOrderElementsOf(possibleCoordinates)
     }
 
     @Test
     fun `Has configurable size`() {
         val oneByOneBoard = Board(1)
-        assertThat(oneByOneBoard.locations).hasSize(1)
+        assertThat(oneByOneBoard.spaces).hasSize(1)
 
         val tenByTenBoard = Board(10)
-        assertThat(tenByTenBoard.locations).hasSize(100)
+        assertThat(tenByTenBoard.spaces).hasSize(100)
     }
 
     @Test
@@ -49,19 +50,19 @@ class BoardTest {
         val resource = Resource.BRICK
         board.place(Location(0, 0), resource)
 
-        assertThat(board.locations[Location(0, 0)]).isEqualTo(resource)
+        assertThat(board.spaces[Location(0, 0)]).isEqualTo(resource)
     }
 
     @Test
     fun `Throws Exception when placing to a which location is not on the board`() {
         val board = Board()
         val resource = Resource.BRICK
-        assertThrowsBoardException("Cannot place ${resource.pieceName} at -1:0. Out of bounds.") { board.place(Location(-1, 0), resource) }
-        assertThrowsBoardException("Cannot place ${resource.pieceName} at 0:-1. Out of bounds.") { board.place(Location(0, -1), resource) }
-        assertThrowsBoardException("Cannot place ${resource.pieceName} at -1:-1. Out of bounds.") { board.place(Location(-1, -1), resource) }
-        assertThrowsBoardException("Cannot place ${resource.pieceName} at 5:0. Out of bounds.") { board.place(Location(5, 0 ), resource) }
-        assertThrowsBoardException("Cannot place ${resource.pieceName} at 0:5. Out of bounds.") { board.place(Location(0, 5), resource) }
-        assertThrowsBoardException("Cannot place ${resource.pieceName} at 5:5. Out of bounds.") { board.place(Location(5, 5), resource) }
+        assertThrowsBoardException("-1:0 is out of bounds.") { board.place(Location(-1, 0), resource) }
+        assertThrowsBoardException("0:-1 is out of bounds.") { board.place(Location(0, -1), resource) }
+        assertThrowsBoardException("-1:-1 is out of bounds.") { board.place(Location(-1, -1), resource) }
+        assertThrowsBoardException("5:0 is out of bounds.") { board.place(Location(5, 0 ), resource) }
+        assertThrowsBoardException("0:5 is out of bounds.") { board.place(Location(0, 5), resource) }
+        assertThrowsBoardException("5:5 is out of bounds.") { board.place(Location(5, 5), resource) }
     }
 
     @Test
@@ -70,8 +71,17 @@ class BoardTest {
         val resource = Resource.BRICK
         board.place(Location(0, 0), resource)
 
-        assertThrowsBoardException("Cannot place ${resource.pieceName} at 0:0. Place occupied.") { board.place(Location(0, 0), resource) }
+        assertThrowsBoardException("0:0 is occupied by ${resource.pieceName}.") { board.place(Location(0, 0), resource) }
     }
+
+    @Test
+    fun `builds`() {
+        val components = mapOf(Location(5, 3) to Resource.GLASS, Location(5, 4) to Resource.BRICK, Location(6, 3) to Resource.WHEAT)
+        val components2 = mapOf(Location(3, 3) to Resource.GLASS, Location(3, 4) to Resource.BRICK)
+        Board(7).build(components, Location(5, 3), Cottage)
+        Board(5).build(components2, Location(3, 3), Cottage)
+    }
+
 
     private fun assertThrowsBoardException(message: String, code: () -> Unit) {
         assertThatCode { code.invoke() }
