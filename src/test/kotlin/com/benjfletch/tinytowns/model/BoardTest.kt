@@ -4,9 +4,18 @@ import com.benjfletch.tinytowns.BoardException
 import com.benjfletch.tinytowns.model.buildings.Cottage
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatCode
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.fail
 
 class BoardTest {
+    private lateinit var board: Board
+
+    @BeforeEach
+    fun setupBoard() {
+        board = Board()
+    }
+
     @Test
     fun `Populates an empty board on initialisation`() {
         val board = Board()
@@ -45,12 +54,39 @@ class BoardTest {
     }
 
     @Test
-    fun `Places Resource at provided location`() {
+    fun `Converts IntRanges of same sizes to Locations`() {
+        val x = IntRange(1, 2)
+        val y = IntRange(1, 2)
+        val expected = listOf(Location(1, 1), Location(1, 2), Location(2, 1), Location(2, 2))
+        val actual = board.rangesAsLocations(x, y)
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+    @Test
+    fun `Converts IntRanges of different sizes to Locations`() {
+        val x = IntRange(1, 1)
+        val y = IntRange(1, 2)
+        val expected = listOf(Location(1, 1), Location(1, 2))
+        val actual = board.rangesAsLocations(x, y)
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+    @Test
+    fun `Places Resource at specified location`() {
         val board = Board()
         val resource = Resource.BRICK
         board.place(Location(0, 0), resource)
 
         assertThat(board.spaces[Location(0, 0)]).isEqualTo(resource)
+    }
+
+    @Test
+    fun `Places Building at specified location`() {
+        val board = Board()
+        val building = Cottage
+        board.place(Location(0, 0), Cottage)
+
+        assertThat(board.spaces[Location(0, 0)]).isEqualTo(building)
     }
 
     @Test
@@ -60,7 +96,7 @@ class BoardTest {
         assertThrowsBoardException("-1:0 is out of bounds.") { board.place(Location(-1, 0), resource) }
         assertThrowsBoardException("0:-1 is out of bounds.") { board.place(Location(0, -1), resource) }
         assertThrowsBoardException("-1:-1 is out of bounds.") { board.place(Location(-1, -1), resource) }
-        assertThrowsBoardException("5:0 is out of bounds.") { board.place(Location(5, 0 ), resource) }
+        assertThrowsBoardException("5:0 is out of bounds.") { board.place(Location(5, 0), resource) }
         assertThrowsBoardException("0:5 is out of bounds.") { board.place(Location(0, 5), resource) }
         assertThrowsBoardException("5:5 is out of bounds.") { board.place(Location(5, 5), resource) }
     }
@@ -72,6 +108,96 @@ class BoardTest {
         board.place(Location(0, 0), resource)
 
         assertThrowsBoardException("0:0 is occupied by ${resource.pieceName}.") { board.place(Location(0, 0), resource) }
+    }
+
+    @Test
+    fun `Removes single GamePiece from specified location`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Removes multiple GamePieces from specified Locations`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Remove handles space already being empty`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Throws Exception when trying to remove from an out of bounds location`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Builds a building`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Throws exception when trying to build building at out of bounds location`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Throws Exception when Matrix does not match Building Shape`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Removes all resources used for building when build is valid`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Places building at targetLocation when build is valid`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Can convert from Location-Resource map to Resource Matrix`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Throws exception when at least one component location is out of bounds`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Throws Exception when Target location is not in componentLocations list`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Considers build valid when targetLocation is in componentLocations`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Considers build valid when targetLocation is not in componentLocations and Building can be built anywhere`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Check location is on board does not throw exception when location is on board`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Check location is on board throws exception when location is not on board`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Check location is occupied does not throw exception when location is unoccupied`() {
+        fail("Not Implemented")
+    }
+
+    @Test
+    fun `Check location is occupied throws exception when location is occupied`() {
+        fail("Not Implemented")
     }
 
     @Test
