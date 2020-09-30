@@ -26,7 +26,7 @@ class CottageTest : BuildingInstanceTest() {
                 }
                 orientation {
                     row(WHEAT, GLASS)
-                    row(NONE, NONE)
+                    row(NONE, BRICK)
                 }
             }
 
