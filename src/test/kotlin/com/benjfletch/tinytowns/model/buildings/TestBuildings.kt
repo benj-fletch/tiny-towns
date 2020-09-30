@@ -1,9 +1,8 @@
 package com.benjfletch.tinytowns.model.buildings
 
-import com.benjfletch.tinytowns.model.Resource.GLASS
-import com.benjfletch.tinytowns.model.Resource.NONE
-import com.benjfletch.tinytowns.model.Resource.STONE
-import com.benjfletch.tinytowns.model.Resource.WOOD
+import com.benjfletch.tinytowns.model.GamePiece
+import com.benjfletch.tinytowns.model.Location
+import com.benjfletch.tinytowns.model.Resource
 import com.benjfletch.tinytowns.model.Shape
 
 object TestBuilding: Building {
