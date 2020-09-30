@@ -2,6 +2,7 @@ package com.benjfletch.tinytowns.model.buildings
 
 import com.benjfletch.tinytowns.BuildingException
 import com.benjfletch.tinytowns.model.GamePiece
+import com.benjfletch.tinytowns.model.Location
 import com.benjfletch.tinytowns.model.ResourceMatrix
 import com.benjfletch.tinytowns.model.Shape
 
@@ -27,4 +28,10 @@ interface Building: GamePiece {
             throw BuildingException("Resources $resourceMatrix in this configuration cannot be used to build $pieceName")
         }
     }
+
+    /**
+     * Calculates the overall score for this [Building]. Takes in to account all of the board, such that different types
+     * of scoring can be accounted for.
+     */
+    fun score(board: Map<Location, GamePiece>): Int
 }
