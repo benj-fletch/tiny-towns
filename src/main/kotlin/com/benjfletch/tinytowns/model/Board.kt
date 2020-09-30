@@ -9,14 +9,11 @@ data class Board(private val size: Int = 4) {
 
     init {
         if (size < 1) throw BoardException("Board size $size is invalid. Must be > 1.")
-        val boardSize = IntRange(0, size)
+        val boardSize = IntRange(1, size)
         rangesAsLocations(boardSize, boardSize)
                 .map { it to EmptySpace }
                 .toMap(spaces)
     }
-
-    /** convert two ranges of Ints, representing x and y, to a [List] of [Locations][Location] */
-    fun rangesAsLocations(xRange: IntRange, yRange: IntRange): List<Location> = xRange.flatMap { x -> yRange.map { y -> Location(x, y) } }
 
     /**
      * Place a [GamePiece] on to the board. This is only valid if:
@@ -58,29 +55,6 @@ data class Board(private val size: Int = 4) {
         targetBuilding.matrixMatches(components.toResourceMatrix())
         remove(components.keys)
         place(targetLocation, targetBuilding)
-    }
-
-    /**
-     * Convert from a [Map] of occupied spaces to a [ResourceMatrix], filling in any [Locations][Location] which aren't
-     * populated with [Resource.NONE] such that the [ResourceMatrix] has a [Resource] at every location.
-     *
-     * The following logic is applied here:
-     * 1. Minimum and maximum x and y coordinates are calculated, to give the size of the [ResourceMatrix]
-     * 1. Any [Location] which has an x or y within the [Matrix] size but is not in the map is added, as a mapping of
-     *    [Location](x, y) -> [Resource.NONE]. This covers spaces which are in the matrix but aren't part of the
-     *    building [Resources][Resource]
-     */
-    fun Map<Location, Resource>.toResourceMatrix(): ResourceMatrix {
-        val xRange = IntRange(keys.minOf { it.x }, keys.maxOf { it.x })
-        val yRange = IntRange(keys.minOf { it.y }, keys.maxOf { it.y })
-
-        val filledComponents = toMutableMap()
-        rangesAsLocations(xRange, yRange)
-                .forEach { filledComponents.putIfAbsent(it, Resource.NONE) }
-
-        return filledComponents.entries.groupBy { it.key.y }
-                .entries.sortedByDescending { it.key }
-                .map { it.value.map { it.value } }
     }
 
     /**
