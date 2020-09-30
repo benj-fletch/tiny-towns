@@ -4,6 +4,7 @@ import com.benjfletch.tinytowns.model.Resource.BRICK
 import com.benjfletch.tinytowns.model.Resource.GLASS
 import com.benjfletch.tinytowns.model.Resource.NONE
 import com.benjfletch.tinytowns.model.Resource.WHEAT
+import org.junit.jupiter.api.fail
 import org.junit.jupiter.params.provider.Arguments
 import java.util.stream.Stream
 
@@ -31,6 +32,11 @@ class CottageTest : BuildingInstanceTest() {
             }
 
             return Stream.of(Arguments.of(orientations))
+        }
+
+        @JvmStatic
+        fun scores(): Stream<Arguments> {
+            fail("Not Implemented")
         }
     }
 }
