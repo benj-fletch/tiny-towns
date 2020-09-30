@@ -11,7 +11,7 @@ import com.benjfletch.tinytowns.ShapeException
  *      null  WHEAT
  *      BRICK GLASS
  * ```
- *  Which will result in the following 4 possible permutations
+ *  Which will result in the following permutations
  * ```
  *      BRICK null      GLASS BRICK     WHEAT GLASS
  *      GLASS WHEAT     WHEAT null      null  BRICK
@@ -19,7 +19,8 @@ import com.benjfletch.tinytowns.ShapeException
  *
  * This rule also holds for non-square matrices:
  * ```
- *
+ *      WOOD STONE      WOOD           STONE WOOD       STONE
+ *                      STONE                           WOOD
  * ```
  */
 data class Shape(val matrix: ResourceMatrix) {

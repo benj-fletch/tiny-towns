@@ -9,6 +9,8 @@ import com.benjfletch.tinytowns.model.Shape
 interface Building: GamePiece {
     /** Name of the building */
     override val pieceName: String
+    /** Category the building belongs to */
+    val category: BuildingCategory
     /** Effect text on the card */
     val text: String
     /** Required resource configuration to build */
