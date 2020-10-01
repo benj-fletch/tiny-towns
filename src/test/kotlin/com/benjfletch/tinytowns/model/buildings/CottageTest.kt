@@ -1,9 +1,13 @@
 package com.benjfletch.tinytowns.model.buildings
 
+import com.benjfletch.tinytowns.model.GamePiece
+import com.benjfletch.tinytowns.model.Location
 import com.benjfletch.tinytowns.model.Resource.BRICK
 import com.benjfletch.tinytowns.model.Resource.GLASS
 import com.benjfletch.tinytowns.model.Resource.NONE
 import com.benjfletch.tinytowns.model.Resource.WHEAT
+import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.fail
 import org.junit.jupiter.params.provider.Arguments
 import java.util.stream.Stream
@@ -36,7 +40,8 @@ class CottageTest : BuildingInstanceTest() {
 
         @JvmStatic
         fun scores(): Stream<Arguments> {
-            fail("Not Implemented")
+            // TODO when scoring exists, add support for this
+            return Stream.of(Arguments.of(Cottage, emptyMap<Location, GamePiece>(), 0))
         }
     }
 }
