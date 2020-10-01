@@ -38,7 +38,7 @@ class FountainTest : BuildingInstanceTest() {
 
         @JvmStatic
         fun scores(): Stream<Arguments> {
-            return adjacencyScoreTests(Fountain, BuildingCategory.ATTRACTION, 2).stream()
+            return adjacencyScoreTests(Fountain, TestAttraction, 2).stream()
         }
     }
 }
@@ -52,8 +52,8 @@ class MillstoneTest : BuildingInstanceTest() {
 
         @JvmStatic
         fun scores(): Stream<Arguments> {
-            return adjacencyScoreTests(Millstone, BuildingCategory.SHOP, 2)
-                    .plus(adjacencyScoreTests(Millstone, BuildingCategory.FOOD_PRODUCER, 2))
+            return adjacencyScoreTests(Millstone, TestShop, 2)
+                    .plus(adjacencyScoreTests(Millstone, TestFoodProducer, 2))
                     .stream()
         }
     }
@@ -82,7 +82,7 @@ class WellTest : BuildingInstanceTest() {
 
         @JvmStatic
         fun scores(): Stream<Arguments> {
-            return accumulativeAdjacencyScoreTests(Well, BuildingCategory.COTTAGE, 1).stream()
+            return accumulativeAdjacencyScoreTests(Well, Cottage, 1).stream()
         }
     }
 }

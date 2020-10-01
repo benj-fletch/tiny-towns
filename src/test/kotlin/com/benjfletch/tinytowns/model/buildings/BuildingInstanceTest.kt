@@ -30,7 +30,7 @@ abstract class BuildingInstanceTest {
 
     companion object {
         @JvmStatic
-        fun adjacencyScoreTests(scoringBuilding: Building, adjacentType: BuildingCategory, adjacencyScore: Int): List<Arguments> {
+        fun adjacencyScoreTests(scoringBuilding: Building, adjacent: Building, adjacencyScore: Int): List<Arguments> {
             val args = mutableListOf<Arguments>()
             val board = Board(3)
             val adjacentLocations = listOf(Location(1,2), Location(2,3), Location(3,2), Location(2,1))
@@ -41,13 +41,13 @@ abstract class BuildingInstanceTest {
 
             adjacentLocations.forEach {
                 val copyBoard = board.copy()
-                copyBoard.place(it, adjacentType)
+                copyBoard.place(it, adjacent)
                 args.add(Arguments.of(scoringBuilding, copyBoard.spaces, adjacencyScore))
             }
 
             cornerLocations.forEach {
                 val copyBoard = board.copy()
-                copyBoard.place(it, adjacentType)
+                copyBoard.place(it, adjacent)
                 args.add(Arguments.of(scoringBuilding, copyBoard.spaces, 0))
             }
 
@@ -55,7 +55,7 @@ abstract class BuildingInstanceTest {
         }
 
         @JvmStatic
-        fun accumulativeAdjacencyScoreTests(scoringBuilding: Building, adjacentType: BuildingCategory, scorePerAdjacent: Int): List<Arguments> {
+        fun accumulativeAdjacencyScoreTests(scoringBuilding: Building, adjacent: Building, scorePerAdjacent: Int): List<Arguments> {
             val args = mutableListOf<Arguments>()
             val board = Board(3)
             val adjacentLocations = listOf(Location(1,2), Location(2,3), Location(3,2), Location(2,1))
@@ -65,10 +65,10 @@ abstract class BuildingInstanceTest {
             args.add(Arguments.of(scoringBuilding, board.copy().spaces, scorePerAdjacent * 0))
 
             adjacentLocations.forEachIndexed { index, location ->
-                board.place(location, adjacentType)
+                board.place(location, adjacent)
                 args.add(Arguments.of(scoringBuilding, board.copy().spaces, scorePerAdjacent * (index + 1)))
 
-                board.place(cornerLocations[index], adjacentType)
+                board.place(cornerLocations[index], adjacent)
                 args.add(Arguments.of(scoringBuilding, board.copy().spaces, scorePerAdjacent * (index + 1)))
             }
 
