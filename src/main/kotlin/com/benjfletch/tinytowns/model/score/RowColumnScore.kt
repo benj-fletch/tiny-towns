@@ -24,3 +24,7 @@ interface RowOrColumnScore: RowColumnScore {
         return maxOf(rowScore, colScore)
     }
 }
+
+interface RowAndColumnScore: RowColumnScore {
+    val scorePerPiece: Int
+}

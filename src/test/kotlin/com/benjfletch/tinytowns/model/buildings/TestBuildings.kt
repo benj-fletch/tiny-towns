@@ -5,6 +5,7 @@ import com.benjfletch.tinytowns.model.Resource.NONE
 import com.benjfletch.tinytowns.model.Resource.STONE
 import com.benjfletch.tinytowns.model.Resource.WOOD
 import com.benjfletch.tinytowns.model.Shape
+import com.benjfletch.tinytowns.model.buildings.monument.Monument
 
 object TestBuilding: Building {
     val resourceMatrix = listOf(listOf(WOOD, STONE), listOf(NONE, GLASS))
@@ -46,6 +47,27 @@ object TestFoodProducer: FoodProducer {
 object TestGoodsHandler: GoodsHandler {
     override val pieceName = "testGoodsHandler"
     override val text = "A test goods handler"
+    override val shape = Shape(listOf(listOf(GLASS)))
+    override val canBeBuiltAnywhere = false
+}
+
+object TestPlaceOfWorship: PlaceOfWorship {
+    override val pieceName = "testPlaceOfWorship"
+    override val text = "A test PlaceOfWorship"
+    override val shape = Shape(listOf(listOf(GLASS)))
+    override val canBeBuiltAnywhere = false
+}
+
+object TestRestaurant: Restaurant {
+    override val pieceName = "testRestaurant"
+    override val text = "A test Restaurant"
+    override val shape = Shape(listOf(listOf(GLASS)))
+    override val canBeBuiltAnywhere = false
+}
+
+object TestMonument: Monument {
+    override val pieceName = "testMonument"
+    override val text = "A test Monument"
     override val shape = Shape(listOf(listOf(GLASS)))
     override val canBeBuiltAnywhere = false
 }

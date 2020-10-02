@@ -43,7 +43,7 @@ class BuildingOrientations(private val building: Building) {
 
     fun applyAssertions() {
         assertThatCode { orientations.forEach { building.matrixMatches(it.rows) } }
-                .withFailMessage("Could not find match for ${building.shape.matrix} in any of $orientations")
+                .withFailMessage("Could not find match for ${building.shape.matrix} in any of ${building.pieceName}'s orientations: $orientations")
                 .doesNotThrowAnyException()
     }
 }
