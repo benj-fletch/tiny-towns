@@ -29,60 +29,38 @@ object AttractionsTest {
     }
 }
 
-class FountainTest : BuildingInstanceTest() {
+class FountainBuildingTest : BuildingInstanceTest() {
     companion object {
         @JvmStatic
         fun buildingOrientations(): Stream<Arguments> {
             return Stream.of(Arguments.of(AttractionsTest.attractionsOrientations(Fountain)))
         }
-
-        @JvmStatic
-        fun scores(): Stream<Arguments> {
-            return adjacencyScoreTests(Fountain, TestAttraction, 2).stream()
-        }
     }
 }
 
-class MillstoneTest : BuildingInstanceTest() {
+class MillstoneBuildingTest : BuildingInstanceTest() {
     companion object {
         @JvmStatic
         fun buildingOrientations(): Stream<Arguments> {
             return Stream.of(Arguments.of(AttractionsTest.attractionsOrientations(Millstone)))
         }
-
-        @JvmStatic
-        fun scores(): Stream<Arguments> {
-            return adjacencyScoreTests(Millstone, TestShop, 2)
-                    .plus(adjacencyScoreTests(Millstone, TestFoodProducer, 2))
-                    .stream()
-        }
     }
 }
 
-class ShedTest : BuildingInstanceTest() {
+class ShedBuildingTest : BuildingInstanceTest() {
     companion object {
         @JvmStatic
         fun buildingOrientations(): Stream<Arguments> {
             return Stream.of(Arguments.of(AttractionsTest.attractionsOrientations(Shed)))
         }
-
-        @JvmStatic
-        fun scores(): Stream<Arguments> {
-            return Stream.of(Arguments.of(Shed, emptyMap<Location, GamePiece>(), 1))
-        }
     }
 }
 
-class WellTest : BuildingInstanceTest() {
+class WellBuildingTest : BuildingInstanceTest() {
     companion object {
         @JvmStatic
         fun buildingOrientations(): Stream<Arguments> {
             return Stream.of(Arguments.of(AttractionsTest.attractionsOrientations(Well)))
-        }
-
-        @JvmStatic
-        fun scores(): Stream<Arguments> {
-            return accumulativeAdjacencyScoreTests(Well, Cottage, 1).stream()
         }
     }
 }

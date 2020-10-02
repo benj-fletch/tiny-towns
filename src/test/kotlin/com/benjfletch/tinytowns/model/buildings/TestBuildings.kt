@@ -13,10 +13,6 @@ object TestBuilding: Building {
     override val text = "A test building"
     override val canBeBuiltAnywhere = false
     override val shape = Shape(resourceMatrix)
-
-    override fun score(board: Map<Location, GamePiece>): Int {
-        return 0
-    }
 }
 
 object TestAnywhereBuilding: Building {
@@ -24,10 +20,6 @@ object TestAnywhereBuilding: Building {
     override val text = ""
     override val shape = Shape(listOf(listOf(GLASS)))
     override val canBeBuiltAnywhere = true
-
-    override fun score(board: Map<Location, GamePiece>): Int {
-        return 0
-    }
 }
 
 object TestAttraction: Attraction {
