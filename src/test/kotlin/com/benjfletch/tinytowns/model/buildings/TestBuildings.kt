@@ -42,3 +42,10 @@ object TestFoodProducer: FoodProducer {
     override val shape = Shape(listOf(listOf(GLASS)))
     override val canBeBuiltAnywhere = false
 }
+
+object TestGoodsHandler: GoodsHandler {
+    override val pieceName = "testGoodsHandler"
+    override val text = "A test goods handler"
+    override val shape = Shape(listOf(listOf(GLASS)))
+    override val canBeBuiltAnywhere = false
+}
