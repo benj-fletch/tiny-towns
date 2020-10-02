@@ -25,7 +25,7 @@ class MillstoneScoringTest: AdjacencyScoringTest() {
     companion object {
         @JvmStatic
         fun scores(): Stream<Arguments> {
-            val scores = listOf(0, 2, 2, 2, 4)
+            val scores = listOf(0, 2, 2, 2, 2)
             val shopAdjacent = fullAdjacencyParameters(Millstone, TestShop, scores)
             val foodProducerAdjacent = fullAdjacencyParameters(Millstone, TestFoodProducer, scores)
             val shopAndFoodProducerAdjacent = adjacencyParameters(Millstone, 2, TestShop, TestFoodProducer)
