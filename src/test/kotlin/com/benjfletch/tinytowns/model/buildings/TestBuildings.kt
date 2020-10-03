@@ -12,7 +12,6 @@ object TestBuilding: Building {
 
     override val pieceName = "test"
     override val text = "A test building"
-    override val canBeBuiltAnywhere = false
     override val shape = Shape(resourceMatrix)
 }
 
@@ -27,47 +26,40 @@ object TestAttraction: Attraction {
     override val pieceName = "testAttraction"
     override val text = "A test attraction"
     override val shape = Shape(listOf(listOf(WOOD, STONE)))
-    override val canBeBuiltAnywhere = false
 }
 
 object TestShop: Shop {
     override val pieceName = "testShop"
     override val text = "A test shop"
     override val shape = Shape(listOf(listOf(GLASS)))
-    override val canBeBuiltAnywhere = false
 }
 
 object TestFoodProducer: FoodProducer {
     override val pieceName = "testFoodProducer"
     override val text = "A test food producer"
     override val shape = Shape(listOf(listOf(GLASS)))
-    override val canBeBuiltAnywhere = false
 }
 
 object TestGoodsHandler: GoodsHandler {
     override val pieceName = "testGoodsHandler"
     override val text = "A test goods handler"
     override val shape = Shape(listOf(listOf(GLASS)))
-    override val canBeBuiltAnywhere = false
 }
 
 object TestPlaceOfWorship: PlaceOfWorship {
     override val pieceName = "testPlaceOfWorship"
     override val text = "A test PlaceOfWorship"
     override val shape = Shape(listOf(listOf(GLASS)))
-    override val canBeBuiltAnywhere = false
 }
 
 object TestRestaurant: Restaurant {
     override val pieceName = "testRestaurant"
     override val text = "A test Restaurant"
     override val shape = Shape(listOf(listOf(GLASS)))
-    override val canBeBuiltAnywhere = false
 }
 
 object TestMonument: Monument {
     override val pieceName = "testMonument"
     override val text = "A test Monument"
     override val shape = Shape(listOf(listOf(GLASS)))
-    override val canBeBuiltAnywhere = false
 }

@@ -20,7 +20,6 @@ interface Shop: Building
 object Bakery: Shop, IfAdjacentScore {
     override val pieceName = "Bakery"
     override val text = "3 (Point) if adjacent to (FoodProducer) or (GoodsHandler)."
-    override val canBeBuiltAnywhere = false
     override val shape = Shape(listOf(
             listOf(NONE, WHEAT, NONE),
             listOf(BRICK, GLASS, BRICK)))
@@ -32,7 +31,6 @@ object Bakery: Shop, IfAdjacentScore {
 object Market: Shop, RowOrColumnScore {
     override val pieceName = "Market"
     override val text = "1 (point) for each (Shop) in the same row or column (not both) as (Shop)"
-    override val canBeBuiltAnywhere = false
     override val shape = Shape(listOf(
             listOf(NONE, WOOD, NONE),
             listOf(STONE, GLASS, STONE)
@@ -45,7 +43,6 @@ object Market: Shop, RowOrColumnScore {
 object Tailor: Shop, SpecifiedPositionScore {
     override val pieceName = "Tailor"
     override val text = "1 (point). +1 (point) for each (Shop) in the 4 center squares in your town"
-    override val canBeBuiltAnywhere = false
     override val shape = Shape(listOf(
             listOf(NONE, WHEAT, NONE),
             listOf(STONE, GLASS, STONE)))
@@ -64,7 +61,6 @@ object Theater: Shop, RowAndColumnScore {
             listOf(NONE, STONE, NONE),
             listOf(WOOD, GLASS, WOOD)
     ))
-    override val canBeBuiltAnywhere = false
 
     override val scorePerPiece = 1
     override val types = listOf(Cottage::class, Attraction::class, GoodsHandler::class,

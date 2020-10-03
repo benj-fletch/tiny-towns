@@ -15,6 +15,7 @@ interface Building: GamePiece {
     val shape: Shape
     /** Determines whether the building can be built anywhere*/
     val canBeBuiltAnywhere: Boolean
+        get() = false
 
     /**
      * Helper function to check if a given [ResourceMatrix] matches the [Shape] of the current building.
