@@ -1,7 +1,5 @@
 package com.benjfletch.tinytowns.model.buildings
 
-import com.benjfletch.tinytowns.model.GamePiece
-import com.benjfletch.tinytowns.model.Location
 import com.benjfletch.tinytowns.model.Resource.STONE
 import com.benjfletch.tinytowns.model.Resource.WOOD
 import org.junit.jupiter.params.provider.Arguments

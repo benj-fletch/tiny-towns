@@ -14,8 +14,6 @@ import com.benjfletch.tinytowns.model.score.IfAdjacentScore
 import com.benjfletch.tinytowns.model.score.RowAndColumnScore
 import com.benjfletch.tinytowns.model.score.RowOrColumnScore
 import com.benjfletch.tinytowns.model.score.SpecifiedPositionScore
-import java.lang.Math.pow
-import kotlin.math.pow
 
 interface Shop: Building
 
