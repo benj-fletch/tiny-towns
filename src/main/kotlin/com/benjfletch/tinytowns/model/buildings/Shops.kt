@@ -15,6 +15,7 @@ import com.benjfletch.tinytowns.model.score.RowAndColumnScore
 import com.benjfletch.tinytowns.model.score.RowOrColumnScore
 import com.benjfletch.tinytowns.model.score.SpecifiedPositionScore
 
+/** Super interface for all Shops (Yellow) implemented in the game */
 interface Shop: Building
 
 object Bakery: Shop, IfAdjacentScore {

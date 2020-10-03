@@ -7,6 +7,7 @@ import com.benjfletch.tinytowns.model.score.AccumulativeAdjacencyScore
 import com.benjfletch.tinytowns.model.score.FlatScore
 import com.benjfletch.tinytowns.model.score.IfAdjacentScore
 
+/** Super interface for all Attraction (Grey) implemented in the game */
 interface Attraction: Building
 
 object Fountain: Attraction, IfAdjacentScore {
