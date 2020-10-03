@@ -67,6 +67,35 @@ class MarketBuildingTest : BuildingInstanceTest() {
     }
 }
 
+class TailorBuildingTest : BuildingInstanceTest() {
+    companion object {
+        @JvmStatic
+        fun buildingOrientations(): Stream<Arguments> {
+            val bakeryOrientations = buildingOrientations(Tailor) {
+                orientation {
+                    row(NONE, WHEAT, NONE)
+                    row(STONE, GLASS, STONE)
+                }
+                orientation {
+                    row(STONE, NONE)
+                    row(GLASS, WHEAT)
+                    row(STONE, NONE)
+                }
+                orientation {
+                    row(STONE, GLASS, STONE)
+                    row(NONE, WHEAT, NONE)
+                }
+                orientation {
+                    row(NONE, STONE)
+                    row(WHEAT, GLASS)
+                    row(NONE, STONE)
+                }
+            }
+            return Stream.of(Arguments.of(bakeryOrientations))
+        }
+    }
+}
+
 class TheaterBuildingTest : BuildingInstanceTest() {
     companion object {
         @JvmStatic

@@ -13,6 +13,9 @@ import com.benjfletch.tinytowns.model.buildings.monument.Monument
 import com.benjfletch.tinytowns.model.score.IfAdjacentScore
 import com.benjfletch.tinytowns.model.score.RowAndColumnScore
 import com.benjfletch.tinytowns.model.score.RowOrColumnScore
+import com.benjfletch.tinytowns.model.score.SpecifiedPositionScore
+import java.lang.Math.pow
+import kotlin.math.pow
 
 interface Shop: Building
 
@@ -39,6 +42,21 @@ object Market: Shop, RowOrColumnScore {
 
     override val scorePerPiece = 1
     override val types = listOf(Shop::class)
+}
+
+object Tailor: Shop, SpecifiedPositionScore {
+    override val pieceName = "Tailor"
+    override val text = "1 (point). +1 (point) for each (Shop) in the 4 center squares in your town"
+    override val canBeBuiltAnywhere = false
+    override val shape = Shape(listOf(
+            listOf(NONE, WHEAT, NONE),
+            listOf(STONE, GLASS, STONE)))
+
+    override fun score(pieceLocation: Location, pieces: Map<Location, GamePiece>): Int {
+        val baseScore = 1
+        val centralPieces = centralSpaces(pieces)
+        return baseScore + centralPieces.count { Shop::class.isInstance(it.value) }
+    }
 }
 
 object Theater: Shop, RowAndColumnScore {
