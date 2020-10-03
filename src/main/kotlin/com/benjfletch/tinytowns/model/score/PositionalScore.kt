@@ -1,5 +1,6 @@
 package com.benjfletch.tinytowns.model.score
 
+import com.benjfletch.tinytowns.model.GameGrid
 import com.benjfletch.tinytowns.model.GamePiece
 import com.benjfletch.tinytowns.model.Location
 
@@ -13,13 +14,4 @@ interface PositionalScore : ScoringPiece
  * Specification of [PositionalScore] where the contents of specific [Locations][Location] on the board must be occupied
  * by specific [GamePieces][GamePiece] for this [ScoringPiece] to score.
  */
-interface SpecifiedPositionScore : PositionalScore {
-    /** Helper method which determines the central [Locations][Location] in a given Map of Locations. */
-    fun centralSpaces(pieces: Map<Location, GamePiece>): Map<Location, GamePiece> {
-        val minLocation = pieces.keys.minOrNull()
-        val maxLocation = pieces.keys.maxOrNull()
-        return pieces
-                .filter { it.key.x != minLocation?.x && it.key.y != minLocation?.y }
-                .filter { it.key.x != maxLocation?.x && it.key.y != maxLocation?.y }
-    }
-}
+interface SpecifiedPositionScore : PositionalScore

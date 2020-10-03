@@ -1,6 +1,6 @@
 package com.benjfletch.tinytowns.model.buildings
 
-import com.benjfletch.tinytowns.model.GamePiece
+import com.benjfletch.tinytowns.model.GameGrid
 import com.benjfletch.tinytowns.model.Location
 import com.benjfletch.tinytowns.model.Resource.BRICK
 import com.benjfletch.tinytowns.model.Resource.GLASS
@@ -10,6 +10,9 @@ import com.benjfletch.tinytowns.model.Resource.WHEAT
 import com.benjfletch.tinytowns.model.Resource.WOOD
 import com.benjfletch.tinytowns.model.Shape
 import com.benjfletch.tinytowns.model.buildings.monument.Monument
+import com.benjfletch.tinytowns.model.centerSpaces
+import com.benjfletch.tinytowns.model.col
+import com.benjfletch.tinytowns.model.row
 import com.benjfletch.tinytowns.model.score.IfAdjacentScore
 import com.benjfletch.tinytowns.model.score.RowAndColumnScore
 import com.benjfletch.tinytowns.model.score.RowOrColumnScore
@@ -48,10 +51,9 @@ object Tailor: Shop, SpecifiedPositionScore {
             listOf(NONE, WHEAT, NONE),
             listOf(STONE, GLASS, STONE)))
 
-    override fun score(pieceLocation: Location, pieces: Map<Location, GamePiece>): Int {
+    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
         val baseScore = 1
-        val centralPieces = centralSpaces(pieces)
-        return baseScore + centralPieces.count { Shop::class.isInstance(it.value) }
+        return baseScore + gameGrid.centerSpaces().count { Shop::class.isInstance(it.value) }
     }
 }
 
@@ -67,9 +69,9 @@ object Theater: Shop, RowAndColumnScore {
     override val types = listOf(Cottage::class, Attraction::class, GoodsHandler::class,
             FoodProducer::class, PlaceOfWorship::class, Restaurant::class, Monument::class)
 
-    override fun score(pieceLocation: Location, pieces: Map<Location, GamePiece>): Int {
-        val uniquePieces = row(pieceLocation, pieces).values
-                .plus(col(pieceLocation, pieces).values)
+    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
+        val uniquePieces = gameGrid.row(pieceLocation).values
+                .plus(gameGrid.col(pieceLocation).values)
                 .distinct()
                 .count { piece -> types.any { it.isInstance(piece) } }
         return uniquePieces * scorePerPiece

@@ -54,7 +54,7 @@ class TailorScoringTest : ScoringTest() {
 
             val emptyBoard = Board()
             emptyBoard.place(origin, Tailor)
-            arguments.add(Arguments.of(Tailor, origin, emptyBoard.spaces, 1))
+            arguments.add(Arguments.of(Tailor, origin, emptyBoard.gameGrid, 1))
 
             val statefulBoard = Board()
             statefulBoard.place(origin, Tailor)
@@ -62,8 +62,8 @@ class TailorScoringTest : ScoringTest() {
             centreLocations.forEachIndexed { index, location ->
                 val board = Board()
                 statefulBoard.place(location, TestShop)
-                board.spaces.putAll(statefulBoard.spaces)
-                arguments.add(Arguments.of(Tailor, origin, board.spaces, index + 1 + 1))
+                board.gameGrid.putAll(statefulBoard.gameGrid)
+                arguments.add(Arguments.of(Tailor, origin, board.gameGrid, index + 1 + 1))
             }
             return arguments.stream()
         }
@@ -89,7 +89,7 @@ class TheaterScoringTest : RowColumnScoringTest() {
 
             val emptyBoard = Board()
             emptyBoard.place(origin, Theater)
-            arguments.add(Arguments.of(Theater, origin, emptyBoard.spaces, 0))
+            arguments.add(Arguments.of(Theater, origin, emptyBoard.gameGrid, 0))
 
             val statefulBoard = Board()
             statefulBoard.place(origin, Theater)
@@ -97,8 +97,8 @@ class TheaterScoringTest : RowColumnScoringTest() {
             rowAndColLocations.forEachIndexed { index, location ->
                 val board = Board()
                 statefulBoard.place(location, types[index])
-                board.spaces.putAll(statefulBoard.spaces)
-                arguments.add(Arguments.of(Theater, origin, board.spaces, index + 1))
+                board.gameGrid.putAll(statefulBoard.gameGrid)
+                arguments.add(Arguments.of(Theater, origin, board.gameGrid, index + 1))
             }
             return arguments.stream()
         }
