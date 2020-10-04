@@ -3,6 +3,8 @@ package com.benjfletch.tinytowns.model.score
 import com.benjfletch.tinytowns.model.Board
 import com.benjfletch.tinytowns.model.Location
 import com.benjfletch.tinytowns.model.buildings.Building
+import com.benjfletch.tinytowns.model.col
+import com.benjfletch.tinytowns.model.row
 import org.junit.jupiter.params.provider.Arguments
 
 abstract class RowColumnScoringTest: ScoringTest() {
@@ -28,18 +30,18 @@ abstract class RowColumnScoringTest: ScoringTest() {
             board.place(centre, toScore)
 
             (0 until numberInRow).forEach {
-                val loc = toScore.row(centre, board.spaces).keys
+                val loc = board.gameGrid.row(centre).keys
                         .filter { loc -> loc != centre }
                         .toList()[it]
                 board.place(loc, toPlaceInRow)
             }
             (0 until numberInCol).forEach {
-                val loc = toScore.col(centre, board.spaces).keys
+                val loc = board.gameGrid.col(centre).keys
                         .filter { loc -> loc != centre }
                         .toList()[it]
                 board.place(loc, toPlaceInRow)
             }
-            return Arguments.of(toScore, centre, board.spaces, expectedScore)
+            return Arguments.of(toScore, centre, board.gameGrid, expectedScore)
         }
     }
 }

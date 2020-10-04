@@ -31,20 +31,20 @@ class BoardTest {
 
     @Test
     fun `Populates an empty board on initialisation`() {
-        assertThat(board.spaces).hasSize(16)
-        assertThat(board.spaces.values).allMatch { it is EmptySpace }
+        assertThat(board.gameGrid).hasSize(16)
+        assertThat(board.gameGrid.values).allMatch { it is EmptySpace }
 
         val possibleCoordinates = (1 .. 4).flatMap { x -> (1 .. 4).map { y -> Location(x, y) } }
-        assertThat(board.spaces.keys).containsExactlyInAnyOrderElementsOf(possibleCoordinates)
+        assertThat(board.gameGrid.keys).containsExactlyInAnyOrderElementsOf(possibleCoordinates)
     }
 
     @Test
     fun `Has configurable size`() {
         val oneByOneBoard = Board(1)
-        assertThat(oneByOneBoard.spaces).hasSize(1)
+        assertThat(oneByOneBoard.gameGrid).hasSize(1)
 
         val tenByTenBoard = Board(10)
-        assertThat(tenByTenBoard.spaces).hasSize(100)
+        assertThat(tenByTenBoard.gameGrid).hasSize(100)
     }
 
     @Test
@@ -70,7 +70,7 @@ class BoardTest {
         val resource = BRICK
         board.place(origin, resource)
 
-        assertThat(board.spaces[origin]).isEqualTo(resource)
+        assertThat(board.gameGrid[origin]).isEqualTo(resource)
     }
 
     @Test
@@ -78,7 +78,7 @@ class BoardTest {
         val building = Cottage
         board.place(origin, Cottage)
 
-        assertThat(board.spaces[origin]).isEqualTo(building)
+        assertThat(board.gameGrid[origin]).isEqualTo(building)
     }
 
     @Test
@@ -104,35 +104,35 @@ class BoardTest {
 
     @Test
     fun `Removes single GamePiece from specified location`() {
-        assertThat(board.spaces[origin]).isEqualTo(EmptySpace)
+        assertThat(board.gameGrid[origin]).isEqualTo(EmptySpace)
 
         board.place(origin, BRICK)
-        assertThat(board.spaces[origin]).isEqualTo(BRICK)
+        assertThat(board.gameGrid[origin]).isEqualTo(BRICK)
 
         board.remove(origin)
-        assertThat(board.spaces[origin]).isEqualTo(EmptySpace)
+        assertThat(board.gameGrid[origin]).isEqualTo(EmptySpace)
     }
 
     @Test
     fun `Removes multiple GamePieces from specified Locations`() {
-        assertThat(board.spaces[origin]).isEqualTo(EmptySpace)
-        assertThat(board.spaces[oneOne]).isEqualTo(EmptySpace)
+        assertThat(board.gameGrid[origin]).isEqualTo(EmptySpace)
+        assertThat(board.gameGrid[oneOne]).isEqualTo(EmptySpace)
 
         board.place(origin, BRICK)
         board.place(oneOne, GLASS)
-        assertThat(board.spaces[origin]).isEqualTo(BRICK)
-        assertThat(board.spaces[oneOne]).isEqualTo(GLASS)
+        assertThat(board.gameGrid[origin]).isEqualTo(BRICK)
+        assertThat(board.gameGrid[oneOne]).isEqualTo(GLASS)
 
         board.remove(listOf(origin, oneOne))
-        assertThat(board.spaces[origin]).isEqualTo(EmptySpace)
-        assertThat(board.spaces[oneOne]).isEqualTo(EmptySpace)
+        assertThat(board.gameGrid[origin]).isEqualTo(EmptySpace)
+        assertThat(board.gameGrid[oneOne]).isEqualTo(EmptySpace)
     }
 
     @Test
     fun `Remove handles space already being empty`() {
-        assertThat(board.spaces[origin]).isEqualTo(EmptySpace)
+        assertThat(board.gameGrid[origin]).isEqualTo(EmptySpace)
         assertThatCode { board.remove(origin) }.doesNotThrowAnyException()
-        assertThat(board.spaces[origin]).isEqualTo(EmptySpace)
+        assertThat(board.gameGrid[origin]).isEqualTo(EmptySpace)
     }
 
     @Test
@@ -149,13 +149,13 @@ class BoardTest {
     fun `Removes all resources used for building when build is valid`() {
         cottageResources
                 .filter { it.key != cottageTargetLoc }
-                .forEach { assertThat(board.spaces[it.key]).isEqualTo(EmptySpace) }
+                .forEach { assertThat(board.gameGrid[it.key]).isEqualTo(EmptySpace) }
     }
 
     @Test
     fun `Places building at targetLocation when build is valid`() {
         buildCottage()
-        assertThat(board.spaces[cottageTargetLoc]).isEqualTo(Cottage)
+        assertThat(board.gameGrid[cottageTargetLoc]).isEqualTo(Cottage)
     }
 
     @Test
@@ -195,7 +195,7 @@ class BoardTest {
 
         assertThatCode { board.build(mapOf(origin to GLASS), targetLoc, TestAnywhereBuilding) }
                 .doesNotThrowAnyException()
-        assertThat(board.spaces[targetLoc]).isEqualTo(TestAnywhereBuilding)
+        assertThat(board.gameGrid[targetLoc]).isEqualTo(TestAnywhereBuilding)
     }
 
     @Test

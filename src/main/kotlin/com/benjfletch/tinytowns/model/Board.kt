@@ -5,14 +5,14 @@ import com.benjfletch.tinytowns.model.buildings.Building
 
 /** Representation of the game board, with a configurable size */
 data class Board(private val size: Int = 4) {
-    val spaces: MutableMap<Location, GamePiece> = mutableMapOf()
+    val gameGrid: MutableMap<Location, GamePiece> = mutableMapOf()
 
     init {
         if (size < 1) throw BoardException("Board size $size is invalid. Must be > 1.")
         val boardSize = IntRange(1, size)
         rangesAsLocations(boardSize, boardSize)
                 .map { it to EmptySpace }
-                .toMap(spaces)
+                .toMap(gameGrid)
     }
 
     /**
@@ -26,7 +26,7 @@ data class Board(private val size: Int = 4) {
     fun place(location: Location, piece: GamePiece) {
         checkLocationIsOnBoard(location)
         checkLocationIsUnoccupied(location)
-        spaces[location] = piece
+        gameGrid[location] = piece
     }
 
     /** Set all [locations] on this [Board] to [EmptySpace] */
@@ -37,7 +37,7 @@ data class Board(private val size: Int = 4) {
     /** Set [location] on this [Board] to [EmptySpace] */
     fun remove(location: Location) {
         checkLocationIsOnBoard(location)
-        spaces[location] = EmptySpace
+        gameGrid[location] = EmptySpace
     }
 
     /**
@@ -62,7 +62,7 @@ data class Board(private val size: Int = 4) {
      * @throws BoardException when [location] has either x or y out of bounds.
      */
     private fun checkLocationIsOnBoard(location: Location) {
-        if (!spaces.containsKey(location)) {
+        if (!gameGrid.containsKey(location)) {
             throw BoardException("$location is out of bounds.")
         }
     }
@@ -74,8 +74,8 @@ data class Board(private val size: Int = 4) {
      */
     private fun checkLocationIsUnoccupied(location: Location) {
         checkLocationIsOnBoard(location)
-        if (spaces[location] !=  EmptySpace) {
-            throw BoardException("$location is occupied by ${spaces[location]?.pieceName}.")
+        if (gameGrid[location] !=  EmptySpace) {
+            throw BoardException("$location is occupied by ${gameGrid[location]?.pieceName}.")
         }
     }
 

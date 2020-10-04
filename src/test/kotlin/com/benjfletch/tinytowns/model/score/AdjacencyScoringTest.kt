@@ -23,7 +23,7 @@ abstract class AdjacencyScoringTest: ScoringTest() {
             (0 until numberOfAdjacent).forEach {
                 board.place(centre.adjacent()[it], adjacentBuilding)
             }
-            return Arguments.of(toScore, centre, board.spaces, expectedScore)
+            return Arguments.of(toScore, centre, board.gameGrid, expectedScore)
         }
 
         @JvmStatic
@@ -32,7 +32,7 @@ abstract class AdjacencyScoringTest: ScoringTest() {
             val centre = Location(2, 2)
             board.place(centre, toScore)
             placeAdjacent(board, centre, *adjacentBuilding)
-            return Arguments.of(toScore, centre, board.spaces, expectedScore)
+            return Arguments.of(toScore, centre, board.gameGrid, expectedScore)
         }
 
         @JvmStatic

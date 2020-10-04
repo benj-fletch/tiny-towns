@@ -10,7 +10,6 @@ import com.benjfletch.tinytowns.model.Shape
 object Cottage: Building {
     override val pieceName = "Cottage"
     override val text = "3 (Points) if this building is fed"
-    override val canBeBuiltAnywhere = false
     override val shape = Shape(listOf(
         listOf(NONE, WHEAT),
         listOf(BRICK, GLASS)))
