@@ -2,6 +2,7 @@ package com.benjfletch.tinytowns.model
 
 import com.benjfletch.tinytowns.BoardException
 import com.benjfletch.tinytowns.model.buildings.Building
+import com.benjfletch.tinytowns.model.buildings.Feeder
 
 /** Representation of the game board, with a configurable size */
 data class Board(private val size: Int = 4) {
@@ -58,6 +59,18 @@ data class Board(private val size: Int = 4) {
     }
 
     /**
+     * Update the [gameGrid] with the fed variant of [FeedableBuildings][FeedableBuilding] by executing [Feeder.feed] for
+     * each of the [Feeders][Feeder] in the current game state.
+     */
+    fun feed() {
+        gameGrid.forEach { (loc, piece) ->
+                    if(piece is Feeder) {
+                        piece.feed(loc, gameGrid)
+                    }
+                }
+    }
+
+    /**
      * Check that the provided [Location] is within the bounds of this [Board]
      * @throws BoardException when [location] has either x or y out of bounds.
      */
@@ -74,7 +87,7 @@ data class Board(private val size: Int = 4) {
      */
     private fun checkLocationIsUnoccupied(location: Location) {
         checkLocationIsOnBoard(location)
-        if (gameGrid[location] !=  EmptySpace) {
+        if (gameGrid[location] != EmptySpace) {
             throw BoardException("$location is occupied by ${gameGrid[location]?.pieceName}.")
         }
     }

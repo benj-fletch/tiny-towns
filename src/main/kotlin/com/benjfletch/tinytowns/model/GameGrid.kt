@@ -1,6 +1,7 @@
 package com.benjfletch.tinytowns.model
 
 typealias GameGrid = Map<Location, GamePiece>
+typealias MutableGameGrid = MutableMap<Location, GamePiece>
 
 /** determine what [GamePieces][GamePiece] are adjacent to [buildingLocation] */
 fun GameGrid.adjacentPieces(buildingLocation: Location): List<GamePiece> {

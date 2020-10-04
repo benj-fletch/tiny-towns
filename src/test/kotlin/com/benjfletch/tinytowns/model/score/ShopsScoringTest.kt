@@ -84,7 +84,7 @@ class TheaterScoringTest : RowColumnScoringTest() {
                     Location(3, 1),
                     Location(4, 1),
             )
-            val types = listOf(Cottage, TestAttraction, TestGoodsHandler, TestFoodProducer,
+            val types = listOf(Cottage.Unfed, TestAttraction, TestGoodsHandler, TestFoodProducer,
                     TestPlaceOfWorship, TestRestaurant, TestMonument)
 
             val emptyBoard = Board()

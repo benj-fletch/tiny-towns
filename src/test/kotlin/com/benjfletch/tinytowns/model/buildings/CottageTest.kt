@@ -11,7 +11,7 @@ class CottageTest : BuildingInstanceTest() {
     companion object {
         @JvmStatic
         fun buildingOrientations(): Stream<Arguments> {
-            val orientations = buildingOrientations(Cottage) {
+            val orientations = buildingOrientations(Cottage.Fed) {
                 orientation {
                     row(NONE, WHEAT)
                     row(BRICK, GLASS)

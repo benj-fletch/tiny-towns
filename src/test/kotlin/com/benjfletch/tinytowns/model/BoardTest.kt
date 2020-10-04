@@ -75,8 +75,8 @@ class BoardTest {
 
     @Test
     fun `Places Building at specified location`() {
-        val building = Cottage
-        board.place(origin, Cottage)
+        val building = Cottage.Unfed
+        board.place(origin, Cottage.Unfed)
 
         assertThat(board.gameGrid[origin]).isEqualTo(building)
     }
@@ -155,7 +155,7 @@ class BoardTest {
     @Test
     fun `Places building at targetLocation when build is valid`() {
         buildCottage()
-        assertThat(board.gameGrid[cottageTargetLoc]).isEqualTo(Cottage)
+        assertThat(board.gameGrid[cottageTargetLoc]).isEqualTo(Cottage.Unfed)
     }
 
     @Test
@@ -169,7 +169,7 @@ class BoardTest {
     fun `Throws Exception when Matrix does not match Building Shape`() {
         val nonMatchingMatrix = mapOf(Location(1, 1) to WHEAT)
         val targetLoc = Location(1, 1)
-        assertThatCode { board.build(nonMatchingMatrix, targetLoc, Cottage) }
+        assertThatCode { board.build(nonMatchingMatrix, targetLoc, Cottage.Unfed) }
                 .isInstanceOf(BuildingException::class.java)
                 .hasMessageContaining("Resources [[WHEAT]] in this configuration cannot be used to build Cottage")
     }
@@ -210,7 +210,7 @@ class BoardTest {
 
     private fun buildCottage() {
         cottageResources.forEach { board.place(it.key, it.value) }
-        board.build(cottageResources, cottageTargetLoc, Cottage)
+        board.build(cottageResources, cottageTargetLoc, Cottage.Unfed)
     }
 
     private fun assertThrowsBoardException(message: String, code: () -> Unit) {
