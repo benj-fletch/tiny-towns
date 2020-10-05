@@ -12,6 +12,20 @@ import kotlin.reflect.KClass
 interface AdjacencyScore : ScoringPiece {
     /** Collection of [Buildings][Building] which this [ScoringPiece] will gain points for being next to */
     val adjacentTypes: Iterable<KClass<out Building>>
+
+    /**
+     * Helper method to determine if a [location] has any of [adjacentTypes] adjacent (up, down, left, right) to it
+     */
+    fun isAdjacent(location: Location, gameGrid: GameGrid): Boolean {
+        return gameGrid.adjacentPieces(location).any { piece -> adjacentTypes.any { it.isInstance(piece) } }
+    }
+
+    /**
+     * Helper method to calculate the number of [adjacentTypes] buildings adjacent to [location]
+     */
+    fun numberOfAdjacent(location: Location, gameGrid: GameGrid): Int {
+        return gameGrid.adjacentPieces(location).count { piece -> adjacentTypes.any { it.isInstance(piece) } }
+    }
 }
 
 /**
@@ -23,8 +37,18 @@ interface IfAdjacentScore: AdjacencyScore {
     val scoreWhenAdjacent: Int
 
     override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
-        val isAdjacent = gameGrid.adjacentPieces(pieceLocation).any { piece -> adjacentTypes.any { it.isInstance(piece) } }
-        return if(isAdjacent) scoreWhenAdjacent else 0
+        return if(isAdjacent(pieceLocation, gameGrid)) scoreWhenAdjacent else 0
+    }
+}
+
+/**
+ * Specification of [AdjacencyScore] which scores a given [ScoringPiece] based on whether it is not adjacent to any of
+ * [adjacentTypes]
+ */
+interface NotAdjacentScore: AdjacencyScore {
+    val scoreWhenNotAdjacent: Int
+    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
+        return if(!isAdjacent(pieceLocation, gameGrid)) scoreWhenNotAdjacent else 0
     }
 }
 
@@ -36,8 +60,6 @@ interface AccumulativeAdjacencyScore: AdjacencyScore {
     val scorePerAdjacent: Int
 
     override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
-        val adjacentScoringPieces = gameGrid.adjacentPieces(pieceLocation)
-                .count { piece -> adjacentTypes.any { it.isInstance(piece) } }
-        return adjacentScoringPieces * scorePerAdjacent
+        return numberOfAdjacent(pieceLocation, gameGrid) * scorePerAdjacent
     }
 }

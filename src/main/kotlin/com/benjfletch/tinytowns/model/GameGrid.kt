@@ -1,5 +1,7 @@
 package com.benjfletch.tinytowns.model
 
+import com.benjfletch.tinytowns.GameGridException
+
 typealias GameGrid = Map<Location, GamePiece>
 typealias MutableGameGrid = MutableMap<Location, GamePiece>
 
@@ -14,11 +16,26 @@ fun GameGrid.row(location: Location): GameGrid = this.filter { it.key.y == locat
 /** Helper method to get the contents of a column on the board that contains [location] */
 fun GameGrid.col(location: Location): GameGrid = this.filter { it.key.x == location.x }
 
+/** Helper method to get the "smallest" Location (closest to origin) */
+fun GameGrid.minLocation(): Location {
+    return keys.minOrNull() ?: throw GameGridException("GameGrid has no entries. Has it been initialised?")
+}
+
+/** Helper method to get the "smallest" Location (closest to origin) */
+fun GameGrid.maxLocation(): Location {
+    return keys.maxOrNull() ?: throw GameGridException("GameGrid has no entries. Has it been initialised?")
+}
+
 /** Helper method which determines the central [Locations][Location] in a given Map of Locations. */
 fun GameGrid.centerSpaces(): GameGrid {
-    val minLocation = this.keys.minOrNull()
-    val maxLocation = this.keys.maxOrNull()
     return this
-            .filter { it.key.x != minLocation?.x && it.key.y != minLocation?.y }
-            .filter { it.key.x != maxLocation?.x && it.key.y != maxLocation?.y }
+            .filter { it.key.x != minLocation().x && it.key.y != minLocation().y }
+            .filter { it.key.x != maxLocation().x && it.key.y != maxLocation().y }
+}
+
+fun GameGrid.cornerSpaces(): GameGrid {
+    val validX = listOf(minLocation().x, maxLocation().x)
+    val validY = listOf(minLocation().y, maxLocation().y)
+    return this
+            .filter { validX.contains(it.key.x) && validY.contains(it.key.y) }
 }
