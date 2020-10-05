@@ -1,7 +1,6 @@
 package com.benjfletch.tinytowns.model.score
 
 import com.benjfletch.tinytowns.model.GameGrid
-import com.benjfletch.tinytowns.model.GamePiece
 import com.benjfletch.tinytowns.model.Location
 import com.benjfletch.tinytowns.model.buildings.Building
 import com.benjfletch.tinytowns.model.col
@@ -42,4 +41,21 @@ interface RowOrColumnScore: RowColumnScore {
 interface RowAndColumnScore: RowColumnScore {
     /** Score per matching piece in this row AND column */
     val scorePerPiece: Int
+}
+
+/**
+ * Specification of [RowColumnScore] which gives this [ScoringPiece] points only if it is not in a row or column with
+ * any of [types]
+ */
+interface NotRowColumnScore: RowColumnScore {
+    val scoreWhenNotInRowOrCol: Int
+
+    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
+        val isInRow = gameGrid.row(pieceLocation).any { piece -> types.any { it.isInstance(piece) } }
+        val isInCol = gameGrid.col(pieceLocation).any { piece -> types.any { it.isInstance(piece) } }
+        return when(isInRow || isInCol) {
+            true -> 0
+            false -> scoreWhenNotInRowOrCol
+        }
+    }
 }

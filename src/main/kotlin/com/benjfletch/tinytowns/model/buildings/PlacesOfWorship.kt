@@ -50,7 +50,11 @@ object Chapel: PlaceOfWorship, AccumulativeScore {
             listOf(NONE, NONE, GLASS),
             listOf(STONE, GLASS, STONE)))
 
-    override val condition: (Building) -> Boolean = { it is Cottage && it.isFed }
+    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
+        return gameGrid.values
+                .filterIsInstance<Cottage>()
+                .count { it.isFed }
+    }
 }
 
 object Temple: PlaceOfWorship, IfAdjacentScore {
