@@ -1,5 +1,7 @@
 package com.benjfletch.tinytowns.model.buildings
 
+import com.benjfletch.tinytowns.model.Location
+import com.benjfletch.tinytowns.model.MutableGameGrid
 import com.benjfletch.tinytowns.model.Resource.GLASS
 import com.benjfletch.tinytowns.model.Resource.NONE
 import com.benjfletch.tinytowns.model.Resource.STONE
@@ -38,6 +40,9 @@ object TestFoodProducer: FoodProducer {
     override val pieceName = "testFoodProducer"
     override val text = "A test food producer"
     override val shape = Shape(listOf(listOf(GLASS)))
+    override fun feed(location: Location, gameGrid: MutableGameGrid) {
+        return 
+    }
 }
 
 object TestGoodsHandler: GoodsHandler {
