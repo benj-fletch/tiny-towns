@@ -5,9 +5,14 @@ import com.benjfletch.tinytowns.GameGridException
 typealias GameGrid = Map<Location, GamePiece>
 typealias MutableGameGrid = MutableMap<Location, GamePiece>
 
-/** determine what [GamePieces][GamePiece] are adjacent to [buildingLocation] */
-fun GameGrid.adjacentPieces(buildingLocation: Location): List<GamePiece> {
-    return buildingLocation.adjacent().map { this.getOrDefault(it, EmptySpace) }
+/** determine what [GamePieces][GamePiece] are adjacent to [location] */
+fun GameGrid.adjacentPieces(location: Location): List<GamePiece> {
+    return location.adjacent().map { this.getOrDefault(it, EmptySpace) }
+}
+
+fun GameGrid.surroundingSpaces(location: Location): GameGrid {
+    val surroundingLocs = location.surrounding()
+    return filterKeys { surroundingLocs.contains(it) }
 }
 
 /** Helper method to get the contents of a row on the board that contains [location] */
