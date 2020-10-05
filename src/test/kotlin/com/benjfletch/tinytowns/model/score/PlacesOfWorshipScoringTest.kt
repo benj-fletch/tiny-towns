@@ -40,7 +40,7 @@ class CloisterScoringTest : ScoringTest() {
 
             val emptyBoard = Board()
             emptyBoard.place(randomSpace, Cloister)
-            arguments.add(Arguments.of(Cloister, randomSpace, emptyBoard.spaces, 0))
+            arguments.add(Arguments.of(Cloister, randomSpace, emptyBoard.gameGrid, 0))
 
             val statefulBoard = Board()
             statefulBoard.place(randomSpace, Cloister)
@@ -48,8 +48,8 @@ class CloisterScoringTest : ScoringTest() {
             cornerLocations.forEachIndexed { index, location ->
                 val board = Board()
                 statefulBoard.place(location, TestPlaceOfWorship)
-                board.spaces.putAll(statefulBoard.spaces)
-                arguments.add(Arguments.of(Cloister, randomSpace, board.spaces, index + 1))
+                board.gameGrid.putAll(statefulBoard.gameGrid)
+                arguments.add(Arguments.of(Cloister, randomSpace, board.gameGrid, index + 1))
             }
             return arguments.stream()
         }

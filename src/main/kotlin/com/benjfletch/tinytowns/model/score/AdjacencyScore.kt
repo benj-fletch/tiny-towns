@@ -19,6 +19,13 @@ interface AdjacencyScore : ScoringPiece {
     fun isAdjacent(location: Location, gameGrid: GameGrid): Boolean {
         return gameGrid.adjacentPieces(location).any { piece -> adjacentTypes.any { it.isInstance(piece) } }
     }
+
+    /**
+     * Helper method to calculate the number of [adjacentTypes] buildings adjacent to [location]
+     */
+    fun numberOfAdjacent(location: Location, gameGrid: GameGrid): Int {
+        return gameGrid.adjacentPieces(location).count { piece -> adjacentTypes.any { it.isInstance(piece) } }
+    }
 }
 
 /**
@@ -53,8 +60,6 @@ interface AccumulativeAdjacencyScore: AdjacencyScore {
     val scorePerAdjacent: Int
 
     override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
-        val adjacentScoringPieces = gameGrid.adjacentPieces(pieceLocation)
-                .count { piece -> adjacentTypes.any { it.isInstance(piece) } }
-        return adjacentScoringPieces * scorePerAdjacent
+        return numberOfAdjacent(pieceLocation, gameGrid) * scorePerAdjacent
     }
 }
