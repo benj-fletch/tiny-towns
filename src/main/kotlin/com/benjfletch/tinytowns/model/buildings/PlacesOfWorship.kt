@@ -11,12 +11,9 @@ import com.benjfletch.tinytowns.model.Shape
 import com.benjfletch.tinytowns.model.adjacentPieces
 import com.benjfletch.tinytowns.model.cornerSpaces
 import com.benjfletch.tinytowns.model.score.AccumulativeScore
-import com.benjfletch.tinytowns.model.score.AdjacencyScore
-import com.benjfletch.tinytowns.model.score.BoundedIfAdjacentScore
 import com.benjfletch.tinytowns.model.score.IfAdjacentScore
 import com.benjfletch.tinytowns.model.score.NotAdjacentScore
 import com.benjfletch.tinytowns.model.score.SpecifiedPositionScore
-import kotlin.reflect.KClass
 
 interface PlaceOfWorship: Building
 
