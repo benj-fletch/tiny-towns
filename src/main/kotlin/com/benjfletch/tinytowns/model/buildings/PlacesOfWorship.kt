@@ -1,10 +1,14 @@
 package com.benjfletch.tinytowns.model.buildings
 
-import com.benjfletch.tinytowns.model.GamePiece
+import com.benjfletch.tinytowns.model.GameGrid
 import com.benjfletch.tinytowns.model.Location
-import com.benjfletch.tinytowns.model.Resource
-import com.benjfletch.tinytowns.model.Resource.*
+import com.benjfletch.tinytowns.model.Resource.BRICK
+import com.benjfletch.tinytowns.model.Resource.GLASS
+import com.benjfletch.tinytowns.model.Resource.NONE
+import com.benjfletch.tinytowns.model.Resource.STONE
+import com.benjfletch.tinytowns.model.Resource.WOOD
 import com.benjfletch.tinytowns.model.Shape
+import com.benjfletch.tinytowns.model.cornerSpaces
 import com.benjfletch.tinytowns.model.score.NotAdjacentScore
 import com.benjfletch.tinytowns.model.score.SpecifiedPositionScore
 
@@ -31,9 +35,9 @@ object Cloister: PlaceOfWorship, SpecifiedPositionScore {
             listOf(NONE, NONE, GLASS),
             listOf(WOOD, BRICK, STONE)))
 
-    override fun score(pieceLocation: Location, pieces: Map<Location, GamePiece>): Int {
+    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
         val scorePerBuilding = 1
-        val cornerPieces = cornerSpaces(pieces)
+        val cornerPieces = gameGrid.cornerSpaces()
         return scorePerBuilding * cornerPieces.count { PlaceOfWorship::class.isInstance(it.value) }
     }
 }

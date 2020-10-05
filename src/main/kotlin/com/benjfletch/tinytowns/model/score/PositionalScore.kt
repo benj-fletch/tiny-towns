@@ -1,6 +1,5 @@
 package com.benjfletch.tinytowns.model.score
 
-import com.benjfletch.tinytowns.model.GameGrid
 import com.benjfletch.tinytowns.model.GamePiece
 import com.benjfletch.tinytowns.model.Location
 

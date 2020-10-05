@@ -8,3 +8,7 @@ class ShapeException(message: String) : Exception(message)
 
 /** Exception to encompass something going wrong with a Building */
 class BuildingException(message: String) : Exception(message)
+
+/** Exception to encompass something going wrong with the GameGrid */
+class GameGridException(message: String) : Exception(message)
+
