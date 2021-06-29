@@ -8,7 +8,7 @@ fun transpose(elements: ResourceMatrix): ResourceMatrix {
     val rows = elements.size
     val cols = elements[0].size
 
-    val transposed = MutableList(cols) { MutableList(rows) {Resource.NONE} }
+    val transposed = MutableList(cols) { MutableList<Resource>(rows) { NONE } }
 
     for(rowIndex in elements.indices) {
         for(colIndex in elements[rowIndex].indices) {
@@ -37,7 +37,7 @@ fun Map<Location, Resource>.toResourceMatrix(): ResourceMatrix {
 
     val filledComponents = toMutableMap()
     rangesAsLocations(xRange, yRange)
-            .forEach { filledComponents.putIfAbsent(it, Resource.NONE) }
+            .forEach { filledComponents.putIfAbsent(it, NONE) }
 
     return filledComponents.entries
             .sortedBy { it.key.x }

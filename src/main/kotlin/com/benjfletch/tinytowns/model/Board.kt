@@ -30,6 +30,11 @@ data class Board(private val size: Int = 4) {
         gameGrid[location] = piece
     }
 
+    /** Sets all spaces on this [Board] to [EmptySpace] **/
+    fun clear() {
+        gameGrid.replaceAll { _, _ -> EmptySpace }
+    }
+
     /** Set all [locations] on this [Board] to [EmptySpace] */
     fun remove(locations: Iterable<Location>) {
         locations.forEach { remove(it) }
@@ -47,14 +52,17 @@ data class Board(private val size: Int = 4) {
      * * [targetLocation] is a valid build location, according to [checkBuildLocationValid]
      * * [components] is a valid [Shape] orientation of [targetBuilding]
      *
-     * All [Resources][Resource] in [components] will be replaced with [EmptySpace] and [targetBuilding] will
-     * be placed at [targetLocation].
+     * All [Resources][Resource] which should be removed during the building process in [components] will be replaced
+     * with [EmptySpace] and [targetBuilding] will be placed at [targetLocation], providing a building is not already
+     * in that [Location]
      */
     fun build(components: Map<Location, Resource>, targetLocation: Location, targetBuilding: Building) {
         checkLocationIsOnBoard(targetLocation)
         checkBuildLocationValid(components.keys, targetLocation, targetBuilding)
         targetBuilding.matrixMatches(components.toResourceMatrix())
-        remove(components.keys)
+        components
+                .filter { it.value.removeAfterBuild() }
+                .forEach { remove(it.key) }
         place(targetLocation, targetBuilding)
     }
 

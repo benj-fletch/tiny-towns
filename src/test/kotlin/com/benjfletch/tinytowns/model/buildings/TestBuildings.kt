@@ -2,10 +2,11 @@ package com.benjfletch.tinytowns.model.buildings
 
 import com.benjfletch.tinytowns.model.Location
 import com.benjfletch.tinytowns.model.MutableGameGrid
-import com.benjfletch.tinytowns.model.Resource.GLASS
-import com.benjfletch.tinytowns.model.Resource.NONE
-import com.benjfletch.tinytowns.model.Resource.STONE
-import com.benjfletch.tinytowns.model.Resource.WOOD
+import com.benjfletch.tinytowns.model.Resource
+import com.benjfletch.tinytowns.model.GLASS
+import com.benjfletch.tinytowns.model.NONE
+import com.benjfletch.tinytowns.model.STONE
+import com.benjfletch.tinytowns.model.WOOD
 import com.benjfletch.tinytowns.model.Shape
 import com.benjfletch.tinytowns.model.buildings.monument.Monument
 
@@ -49,6 +50,8 @@ object TestGoodsHandler: GoodsHandler {
     override val pieceName = "testGoodsHandler"
     override val text = "A test goods handler"
     override val shape = Shape(listOf(listOf(GLASS)))
+    override val resourcesHeld = mutableListOf<Resource>()
+    override val maxResources = 0
 }
 
 object TestPlaceOfWorship: PlaceOfWorship {

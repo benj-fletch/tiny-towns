@@ -1,7 +1,7 @@
 package com.benjfletch.tinytowns.model.buildings
 
-import com.benjfletch.tinytowns.model.Resource.STONE
-import com.benjfletch.tinytowns.model.Resource.WOOD
+import com.benjfletch.tinytowns.model.STONE
+import com.benjfletch.tinytowns.model.WOOD
 import org.junit.jupiter.params.provider.Arguments
 import java.util.stream.Stream
 

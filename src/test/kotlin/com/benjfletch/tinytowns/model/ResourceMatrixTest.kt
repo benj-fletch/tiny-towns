@@ -1,11 +1,5 @@
 package com.benjfletch.tinytowns.model
 
-import com.benjfletch.tinytowns.model.Resource.BRICK
-import com.benjfletch.tinytowns.model.Resource.GLASS
-import com.benjfletch.tinytowns.model.Resource.NONE
-import com.benjfletch.tinytowns.model.Resource.STONE
-import com.benjfletch.tinytowns.model.Resource.WHEAT
-import com.benjfletch.tinytowns.model.Resource.WOOD
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
