@@ -12,3 +12,5 @@ class BuildingException(message: String) : Exception(message)
 /** Exception to encompass something going wrong with the GameGrid */
 class GameGridException(message: String) : Exception(message)
 
+/** Exception for specific errors to do with the Goods Handler building type */
+class GoodsHandlerException(message: String): Exception(message)

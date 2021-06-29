@@ -1,9 +1,9 @@
 package com.benjfletch.tinytowns.model.buildings
 
-import com.benjfletch.tinytowns.model.Resource.BRICK
-import com.benjfletch.tinytowns.model.Resource.GLASS
-import com.benjfletch.tinytowns.model.Resource.NONE
-import com.benjfletch.tinytowns.model.Resource.WHEAT
+import com.benjfletch.tinytowns.model.BRICK
+import com.benjfletch.tinytowns.model.GLASS
+import com.benjfletch.tinytowns.model.NONE
+import com.benjfletch.tinytowns.model.WHEAT
 import org.junit.jupiter.params.provider.Arguments
 import java.util.stream.Stream
 
@@ -11,7 +11,7 @@ class CottageTest : BuildingInstanceTest() {
     companion object {
         @JvmStatic
         fun buildingOrientations(): Stream<Arguments> {
-            val orientations = buildingOrientations(Cottage.Fed) {
+            return Stream.of(Arguments.of(buildingOrientations(Cottage.Fed) {
                 orientation {
                     row(NONE, WHEAT)
                     row(BRICK, GLASS)
@@ -28,9 +28,7 @@ class CottageTest : BuildingInstanceTest() {
                     row(WHEAT, GLASS)
                     row(NONE, BRICK)
                 }
-            }
-
-            return Stream.of(Arguments.of(orientations))
+            }))
         }
     }
 }

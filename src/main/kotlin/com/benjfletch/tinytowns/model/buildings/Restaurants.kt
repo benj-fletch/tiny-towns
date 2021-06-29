@@ -1,10 +1,10 @@
 package com.benjfletch.tinytowns.model.buildings
 
-import com.benjfletch.tinytowns.model.Resource.BRICK
-import com.benjfletch.tinytowns.model.Resource.GLASS
-import com.benjfletch.tinytowns.model.Resource.STONE
-import com.benjfletch.tinytowns.model.Resource.WHEAT
-import com.benjfletch.tinytowns.model.Resource.WOOD
+import com.benjfletch.tinytowns.model.BRICK
+import com.benjfletch.tinytowns.model.GLASS
+import com.benjfletch.tinytowns.model.STONE
+import com.benjfletch.tinytowns.model.WHEAT
+import com.benjfletch.tinytowns.model.WOOD
 import com.benjfletch.tinytowns.model.Shape
 import com.benjfletch.tinytowns.model.score.AccumulativeConstructedScore
 import com.benjfletch.tinytowns.model.score.NotRowColumnScore

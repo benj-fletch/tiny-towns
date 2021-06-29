@@ -2,7 +2,11 @@ package com.benjfletch.tinytowns.model.buildings
 
 import com.benjfletch.tinytowns.model.Location
 import com.benjfletch.tinytowns.model.MutableGameGrid
-import com.benjfletch.tinytowns.model.Resource.*
+import com.benjfletch.tinytowns.model.STONE
+import com.benjfletch.tinytowns.model.WHEAT
+import com.benjfletch.tinytowns.model.WOOD
+import com.benjfletch.tinytowns.model.BRICK
+import com.benjfletch.tinytowns.model.GLASS
 import com.benjfletch.tinytowns.model.Shape
 import com.benjfletch.tinytowns.model.col
 import com.benjfletch.tinytowns.model.row

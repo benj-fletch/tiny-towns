@@ -1,8 +1,8 @@
 package com.benjfletch.tinytowns.model.buildings
 
-import com.benjfletch.tinytowns.model.Resource.STONE
-import com.benjfletch.tinytowns.model.Resource.WOOD
+import com.benjfletch.tinytowns.model.STONE
 import com.benjfletch.tinytowns.model.Shape
+import com.benjfletch.tinytowns.model.WOOD
 import com.benjfletch.tinytowns.model.score.AccumulativeAdjacencyScore
 import com.benjfletch.tinytowns.model.score.FlatScore
 import com.benjfletch.tinytowns.model.score.IfAdjacentScore

@@ -2,9 +2,6 @@ package com.benjfletch.tinytowns.model
 
 import com.benjfletch.tinytowns.BoardException
 import com.benjfletch.tinytowns.BuildingException
-import com.benjfletch.tinytowns.model.Resource.BRICK
-import com.benjfletch.tinytowns.model.Resource.GLASS
-import com.benjfletch.tinytowns.model.Resource.WHEAT
 import com.benjfletch.tinytowns.model.buildings.Cottage
 import com.benjfletch.tinytowns.model.buildings.TestAnywhereBuilding
 import com.benjfletch.tinytowns.model.buildings.TestBuilding
@@ -207,6 +204,17 @@ class BoardTest {
                 .isInstanceOf(BoardException::class.java)
                 .hasMessageContaining("$targetLoc is occupied by ${GLASS.pieceName}")
     }
+
+    @Test
+    fun `Clears the whole board`() {
+        buildCottage()
+        assertThat(board.gameGrid[cottageTargetLoc]).isEqualTo(Cottage.Unfed)
+        board.clear()
+        board.gameGrid.forEach {
+            assertThat(board.gameGrid[it.key]).isEqualTo(EmptySpace)
+        }
+    }
+
 
     private fun buildCottage() {
         cottageResources.forEach { board.place(it.key, it.value) }
