@@ -9,14 +9,13 @@ data class Location(val x: Int, val y: Int): Comparable<Location> {
                 Location(x, y + 1))
 
     fun surrounding(): List<Location> = listOf(
-            Location(x - 1, y -1),
-            Location(x - 1, y - 1 ),
+            Location(x - 1, y - 1),
+            Location(x - 1, y),
             Location(x - 1, y + 1),
-            Location(x, y -1),
-            Location(x, y - 1 ),
+            Location(x, y - 1),
             Location(x, y + 1),
-            Location(x + 1, y -1),
-            Location(x + 1, y - 1 ),
+            Location(x + 1, y - 1),
+            Location(x + 1, y),
             Location(x + 1, y + 1))
 
     override fun toString(): String {

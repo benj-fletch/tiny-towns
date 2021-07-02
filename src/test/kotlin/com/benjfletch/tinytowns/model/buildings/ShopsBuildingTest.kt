@@ -13,7 +13,7 @@ class BakeryBuildingTest : BuildingInstanceTest() {
     companion object {
         @JvmStatic
         fun buildingOrientations(): Stream<Arguments> {
-            val bakeryOrientations = buildingOrientations(Bakery) {
+            return Stream.of(Arguments.of(buildingOrientations(Bakery) {
                 orientation {
                     row(NONE, WHEAT, NONE)
                     row(BRICK, GLASS, BRICK)
@@ -32,8 +32,7 @@ class BakeryBuildingTest : BuildingInstanceTest() {
                     row(WHEAT, GLASS)
                     row(NONE, BRICK)
                 }
-            }
-            return Stream.of(Arguments.of(bakeryOrientations))
+            }))
         }
     }
 }
@@ -42,7 +41,7 @@ class MarketBuildingTest : BuildingInstanceTest() {
     companion object {
         @JvmStatic
         fun buildingOrientations(): Stream<Arguments> {
-            val bakeryOrientations = buildingOrientations(Market) {
+            return Stream.of(Arguments.of(buildingOrientations(Market) {
                 orientation {
                     row(NONE, WOOD, NONE)
                     row(STONE, GLASS, STONE)
@@ -61,8 +60,7 @@ class MarketBuildingTest : BuildingInstanceTest() {
                     row(WOOD, GLASS)
                     row(NONE, STONE)
                 }
-            }
-            return Stream.of(Arguments.of(bakeryOrientations))
+            }))
         }
     }
 }
@@ -71,7 +69,7 @@ class TailorBuildingTest : BuildingInstanceTest() {
     companion object {
         @JvmStatic
         fun buildingOrientations(): Stream<Arguments> {
-            val bakeryOrientations = buildingOrientations(Tailor) {
+            return Stream.of(Arguments.of(buildingOrientations(Tailor) {
                 orientation {
                     row(NONE, WHEAT, NONE)
                     row(STONE, GLASS, STONE)
@@ -90,8 +88,7 @@ class TailorBuildingTest : BuildingInstanceTest() {
                     row(WHEAT, GLASS)
                     row(NONE, STONE)
                 }
-            }
-            return Stream.of(Arguments.of(bakeryOrientations))
+            }))
         }
     }
 }
@@ -100,7 +97,7 @@ class TheaterBuildingTest : BuildingInstanceTest() {
     companion object {
         @JvmStatic
         fun buildingOrientations(): Stream<Arguments> {
-            val bakeryOrientations = buildingOrientations(Theater) {
+            return Stream.of(Arguments.of(buildingOrientations(Theater) {
                 orientation {
                     row(NONE, STONE, NONE)
                     row(WOOD, GLASS, WOOD)
@@ -119,8 +116,7 @@ class TheaterBuildingTest : BuildingInstanceTest() {
                     row(STONE, GLASS)
                     row(NONE, WOOD)
                 }
-            }
-            return Stream.of(Arguments.of(bakeryOrientations))
+            }))
         }
     }
 }

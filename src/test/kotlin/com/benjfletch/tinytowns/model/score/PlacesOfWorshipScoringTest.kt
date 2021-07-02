@@ -3,7 +3,10 @@ package com.benjfletch.tinytowns.model.score
 import com.benjfletch.tinytowns.model.Board
 import com.benjfletch.tinytowns.model.Location
 import com.benjfletch.tinytowns.model.buildings.Abbey
+import com.benjfletch.tinytowns.model.buildings.Chapel
 import com.benjfletch.tinytowns.model.buildings.Cloister
+import com.benjfletch.tinytowns.model.buildings.Cottage
+import com.benjfletch.tinytowns.model.buildings.Temple
 import com.benjfletch.tinytowns.model.buildings.TestGoodsHandler
 import com.benjfletch.tinytowns.model.buildings.TestPlaceOfWorship
 import com.benjfletch.tinytowns.model.buildings.TestRestaurant
@@ -52,6 +55,51 @@ class CloisterScoringTest : ScoringTest() {
                 arguments.add(Arguments.of(Cloister, randomSpace, board.gameGrid, index + 1))
             }
             return arguments.stream()
+        }
+    }
+}
+
+class ChapelScoringTest : ScoringTest() {
+    companion object {
+        @JvmStatic
+        fun scores(): Stream<Arguments> {
+            val arguments = mutableListOf<Arguments>()
+            val randomSpace = Location(2, 3)
+            val fedCottageLocations = listOf(
+                    Location(1, 1),
+                    Location(1, 2),
+                    Location(3, 1),
+                    Location(4, 4))
+
+            val emptyBoard = Board()
+            emptyBoard.place(randomSpace, Chapel)
+            arguments.add(Arguments.of(Chapel, randomSpace, emptyBoard.gameGrid, 0))
+
+            val statefulBoard = Board()
+            statefulBoard.place(randomSpace, Chapel)
+
+            fedCottageLocations.forEachIndexed { index, location ->
+                val board = Board()
+                statefulBoard.place(location, Cottage.Fed)
+                board.gameGrid.putAll(statefulBoard.gameGrid)
+                arguments.add(Arguments.of(Chapel, randomSpace, board.gameGrid, index + 1))
+            }
+            return arguments.stream()
+        }
+    }
+}
+
+class TempleScoringTest : AdjacencyScoringTest() {
+    companion object {
+        @JvmStatic
+        fun scores(): Stream<Arguments> {
+            val fedScores = listOf(0, 0, 4, 4, 4)
+            val fedCottagesAdjacent = fullAdjacencyParameters(Temple, Cottage.Fed, fedScores)
+
+            val unfedScores = listOf(0, 0, 0, 0, 0)
+            val unfedCottagesAdjacent = fullAdjacencyParameters(Temple, Cottage.Unfed, unfedScores)
+
+            return fedCottagesAdjacent.plus(unfedCottagesAdjacent).stream()
         }
     }
 }

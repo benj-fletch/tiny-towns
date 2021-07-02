@@ -48,7 +48,9 @@ class WellScoringTest: AdjacencyScoringTest() {
         @JvmStatic
         fun scores(): Stream<Arguments> {
             val scores = listOf(0, 1, 2, 3, 4)
-            return fullAdjacencyParameters(Well, Cottage.Unfed, scores).stream()
+            val unfedCottages = fullAdjacencyParameters(Well, Cottage.Unfed, scores)
+            val fedCottages = fullAdjacencyParameters(Well, Cottage.Fed, scores)
+            return unfedCottages.plus(fedCottages).stream()
         }
     }
 }

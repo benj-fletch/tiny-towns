@@ -9,6 +9,7 @@ import com.benjfletch.tinytowns.model.BRICK
 import com.benjfletch.tinytowns.model.GLASS
 import com.benjfletch.tinytowns.model.Shape
 import com.benjfletch.tinytowns.model.col
+import com.benjfletch.tinytowns.model.contiguousGroupsOf
 import com.benjfletch.tinytowns.model.row
 import com.benjfletch.tinytowns.model.surroundingSpaces
 
@@ -63,29 +64,17 @@ object Farm: FoodProducer {
 
 object Greenhouse: FoodProducer {
     override val pieceName = "Greenhouse"
-    override val text = "Feeds 1 contiguoug group of (FeedableBuilding) buildings anywhere in your town."
+    override val text = "Feeds 1 contiguous group of (FeedableBuilding) buildings anywhere in your town."
     override val shape = Shape(listOf(
             listOf(WHEAT, GLASS),
             listOf(WOOD, WOOD)))
 
     override fun feed(location: Location, gameGrid: MutableGameGrid) {
-        val contiguousUnfedCottages = mutableListOf<MutableList<Location>>()
-        val unfedCottageLocs = gameGrid.filterValues { it is Cottage.Unfed }.keys.toMutableList()
-
-
-        unfedCottageLocs.forEach { cotLoc ->
-            if(!contiguousUnfedCottages.any { it.any { it.adjacent().contains(cotLoc) } }) {
-                contiguousUnfedCottages.add(mutableListOf(cotLoc))
-            } else {
-                contiguousUnfedCottages.filter { it.any { it.adjacent().contains(cotLoc) } }
-                        .forEach { it.add(cotLoc) }
-            }
-        }
-
+        val contiguousUnfedCottages = gameGrid.contiguousGroupsOf(Cottage.Unfed)
         contiguousUnfedCottages.map { it.count() to it }
-                .sortedBy { it.first }
+                .sortedBy { (count, _) ->  count }
                 .takeLast(1)
-                .flatMap { it.second }
-                .forEach { gameGrid[it] to Cottage.Fed }
+                .flatMap { (_, cottageLocs) -> cottageLocs }
+                .forEach { loc -> gameGrid[loc] = Cottage.Fed }
     }
 }
