@@ -55,6 +55,8 @@ fun GameGrid.countPieces(building: Building): Int {
             .count()
 }
 
+/** Helper method which calculates the groups of contiguous buildings of the type [targetPiece] in the current
+ * [GameGrid] and returns a list of their [Location][Location] */
 fun GameGrid.contiguousGroupsOf(targetPiece: GamePiece): Set<Set<Location>> {
     val contiguousGroups = mutableSetOf<MutableSet<Location>>()
     val toVisit = this.filterValues { targetPiece::class.isInstance(it) }.keys.toMutableSet()
@@ -67,7 +69,9 @@ fun GameGrid.contiguousGroupsOf(targetPiece: GamePiece): Set<Set<Location>> {
     return contiguousGroups
 }
 
-fun GameGrid.visit(loc: Location, visited: MutableSet<Location>, toVisit: MutableSet<Location>, targetPiece: GamePiece) {
+/** Companion to [GameGrid.contiguousGroupsOf] which will vist a given location and update [visited] and [toVisit] with
+ * new locations which have been evaluated for [targetPiece] and which ones require visiting still*/
+private fun GameGrid.visit(loc: Location, visited: MutableSet<Location>, toVisit: MutableSet<Location>, targetPiece: GamePiece) {
     visited.add(loc)
     toVisit.remove(loc)
     if (toVisit.isNotEmpty()) {
