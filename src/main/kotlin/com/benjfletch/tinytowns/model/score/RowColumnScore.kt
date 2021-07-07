@@ -24,7 +24,7 @@ interface RowOrColumnScore: RowColumnScore {
     /** Score per matching piece in this row OR column */
     val scorePerPiece: Int
 
-    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
+    override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
         val rowScore = gameGrid.row(pieceLocation)
                 .count { piece -> types.any { it.isInstance(piece.value) } } * scorePerPiece
         val colScore = gameGrid.col(pieceLocation)
@@ -50,9 +50,9 @@ interface RowAndColumnScore: RowColumnScore {
 interface NotRowColumnScore: RowColumnScore {
     val scoreWhenNotInRowOrCol: Int
 
-    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
-        val isInRow = gameGrid.row(pieceLocation).any { piece -> types.any { it.isInstance(piece) } }
-        val isInCol = gameGrid.col(pieceLocation).any { piece -> types.any { it.isInstance(piece) } }
+    override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
+        val isInRow = gameGrid.row(pieceLocation).minus(pieceLocation).any { (_, piece) -> types.any { it.isInstance(piece) } }
+        val isInCol = gameGrid.col(pieceLocation).minus(pieceLocation).any { (_, piece) -> types.any { it.isInstance(piece) } }
         return when(isInRow || isInCol) {
             true -> 0
             false -> scoreWhenNotInRowOrCol

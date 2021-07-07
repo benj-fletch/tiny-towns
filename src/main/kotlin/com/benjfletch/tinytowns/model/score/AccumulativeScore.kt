@@ -15,8 +15,8 @@ interface AccumulativeConstructedScore: ScoringPiece {
     val scores: Map<Int, Int>
     val maxScore: Int
 
-    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
-        val matchedBuildings = gameGrid.count { piece -> types.any { it.isInstance(piece) } }
+    override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
+        val matchedBuildings = gameGrid.count { (_, piece) -> types.any { it.isInstance(piece) } }
         return scores.getOrDefault(matchedBuildings, maxScore)
     }
 }

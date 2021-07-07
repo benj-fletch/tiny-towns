@@ -9,10 +9,10 @@ import com.benjfletch.tinytowns.model.Location
  */
 interface ScoringPiece : GamePiece {
     /**
-     * Determine the score of this [GamePiece] based on teh state of the board
+     * Determine the score of this [GamePiece] based on the state of the board
      *
      * @param pieceLocation The location of the [GamePiece] to score
      * @param gameGrid The board state to use for score calculation
      */
-    fun score(pieceLocation: Location, gameGrid: GameGrid): Int
+    fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int
 }

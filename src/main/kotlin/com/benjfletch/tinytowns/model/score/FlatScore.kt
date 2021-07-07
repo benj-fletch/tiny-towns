@@ -9,7 +9,7 @@ import com.benjfletch.tinytowns.model.Location
 interface FlatScore : ScoringPiece {
     /** Score to apply to this [ScoringPiece] */
     val score: Int
-    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
+    override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
         return score
     }
 }

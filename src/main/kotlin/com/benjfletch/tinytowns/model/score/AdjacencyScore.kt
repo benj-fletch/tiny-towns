@@ -36,7 +36,7 @@ interface IfAdjacentScore: AdjacencyScore {
     /** Score to assign this [ScoringPiece] when adjacent to at least one [adjacentTypes] */
     val scoreWhenAdjacent: Int
 
-    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
+    override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
         return if(isAdjacent(pieceLocation, gameGrid)) scoreWhenAdjacent else 0
     }
 }
@@ -47,7 +47,7 @@ interface IfAdjacentScore: AdjacencyScore {
  */
 interface NotAdjacentScore: AdjacencyScore {
     val scoreWhenNotAdjacent: Int
-    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
+    override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
         return if(!isAdjacent(pieceLocation, gameGrid)) scoreWhenNotAdjacent else 0
     }
 }
@@ -59,7 +59,7 @@ interface AccumulativeAdjacencyScore: AdjacencyScore {
     /** Score to accumulate for each of the valid adjacent [Buildings][Building] */
     val scorePerAdjacent: Int
 
-    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
+    override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
         return numberOfAdjacent(pieceLocation, gameGrid) * scorePerAdjacent
     }
 }

@@ -51,7 +51,7 @@ object Tailor: Shop, SpecifiedPositionScore {
             listOf(NONE, WHEAT, NONE),
             listOf(STONE, GLASS, STONE)))
 
-    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
+    override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
         val baseScore = 1
         return baseScore + gameGrid.centerSpaces().count { Shop::class.isInstance(it.value) }
     }
@@ -69,7 +69,7 @@ object Theater: Shop, RowAndColumnScore {
     override val types = listOf(Cottage::class, Attraction::class, GoodsHandler::class,
             FoodProducer::class, PlaceOfWorship::class, Restaurant::class, Monument::class)
 
-    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
+    override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
         val uniquePieces = gameGrid.row(pieceLocation).values
                 .plus(gameGrid.col(pieceLocation).values)
                 .distinct()

@@ -15,6 +15,7 @@ import com.benjfletch.tinytowns.model.score.IfAdjacentScore
 import com.benjfletch.tinytowns.model.score.NotAdjacentScore
 import com.benjfletch.tinytowns.model.score.SpecifiedPositionScore
 
+/** Super interface for all "Places of Worship" (Orange) implemented in the game */
 interface PlaceOfWorship: Building
 
 object Abbey: PlaceOfWorship, NotAdjacentScore {
@@ -36,7 +37,7 @@ object Cloister: PlaceOfWorship, SpecifiedPositionScore {
             listOf(NONE, NONE, GLASS),
             listOf(WOOD, BRICK, STONE)))
 
-    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
+    override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
         val scorePerBuilding = 1
         val cornerPieces = gameGrid.cornerSpaces()
         return scorePerBuilding * cornerPieces.count { PlaceOfWorship::class.isInstance(it.value) }
@@ -45,12 +46,12 @@ object Cloister: PlaceOfWorship, SpecifiedPositionScore {
 
 object Chapel: PlaceOfWorship, AccumulativeScore {
     override val pieceName = "Chapel"
-    override val text = "1 {point) for each fed (Cottage)."
+    override val text = "1 (point) for each fed (Cottage)."
     override val shape = Shape(listOf(
             listOf(NONE, NONE, GLASS),
             listOf(STONE, GLASS, STONE)))
 
-    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
+    override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
         return gameGrid.values
                 .filterIsInstance<Cottage>()
                 .count { it.isFed }
@@ -67,12 +68,12 @@ object Temple: PlaceOfWorship, IfAdjacentScore {
     override val adjacentTypes = listOf(Cottage::class)
     override val scoreWhenAdjacent = 4
 
-    override fun score(pieceLocation: Location, gameGrid: GameGrid): Int {
+    override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
         val fedCottages = gameGrid.adjacentPieces(pieceLocation)
                 .filterIsInstance<Cottage>()
                 .count { it.isFed }
         return when(fedCottages) {
-            in 0..2 -> 0
+            in 0..1 -> 0
             else -> scoreWhenAdjacent
         }
     }
