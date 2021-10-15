@@ -1,16 +1,11 @@
 plugins {
-    base
-    java
-    kotlin("jvm") version "1.4.0"
+    kotlin("jvm") version "1.5.31"
+    kotlin("plugin.serialization") version "1.5.31"
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-
-    // Logging things
-    implementation("org.slf4j:slf4j-api:1.7.30")
-    runtimeOnly("ch.qos.logback:logback-classic:1.2.3")
-    runtimeOnly("ch.qos.logback:logback-core:1.2.3")
+    // Serialisation things
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
 
     // testing dependencies:
     val jUnitVersion = "5.6.2"

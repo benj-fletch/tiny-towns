@@ -11,40 +11,40 @@ class CottageBuildingTest : BuildingInstanceTest() {
     companion object {
         @JvmStatic
         fun buildingOrientations(): Stream<Arguments> {
-            return Stream.of(Arguments.of(buildingOrientations(Cottage.Fed) {
+            return Stream.of(Arguments.of(buildingOrientations(FedCottage()) {
                         orientation {
-                            row(NONE, WHEAT)
-                            row(BRICK, GLASS)
+                            row(NONE(), WHEAT())
+                            row(BRICK(), GLASS())
                         }
                         orientation {
-                            row(BRICK, NONE)
-                            row(GLASS, WHEAT)
+                            row(BRICK(), NONE())
+                            row(GLASS(), WHEAT())
                         }
                         orientation {
-                            row(GLASS, BRICK)
-                            row(WHEAT, NONE)
+                            row(GLASS(), BRICK())
+                            row(WHEAT(), NONE())
                         }
                         orientation {
-                            row(WHEAT, GLASS)
-                            row(NONE, BRICK)
+                            row(WHEAT(), GLASS())
+                            row(NONE(), BRICK())
                         }
                     }),
-                    Arguments.of(buildingOrientations(Cottage.Unfed) {
+                    Arguments.of(buildingOrientations(UnfedCottage()) {
                         orientation {
-                            row(NONE, WHEAT)
-                            row(BRICK, GLASS)
+                            row(NONE(), WHEAT())
+                            row(BRICK(), GLASS())
                         }
                         orientation {
-                            row(BRICK, NONE)
-                            row(GLASS, WHEAT)
+                            row(BRICK(), NONE())
+                            row(GLASS(), WHEAT())
                         }
                         orientation {
-                            row(GLASS, BRICK)
-                            row(WHEAT, NONE)
+                            row(GLASS(), BRICK())
+                            row(WHEAT(), NONE())
                         }
                         orientation {
-                            row(WHEAT, GLASS)
-                            row(NONE, BRICK)
+                            row(WHEAT(), GLASS())
+                            row(NONE(), BRICK())
                         }
                     }))
         }

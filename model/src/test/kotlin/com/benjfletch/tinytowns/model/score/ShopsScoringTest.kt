@@ -3,7 +3,6 @@ package com.benjfletch.tinytowns.model.score
 import com.benjfletch.tinytowns.model.Board
 import com.benjfletch.tinytowns.model.Location
 import com.benjfletch.tinytowns.model.buildings.Bakery
-import com.benjfletch.tinytowns.model.buildings.Cottage
 import com.benjfletch.tinytowns.model.buildings.Market
 import com.benjfletch.tinytowns.model.buildings.Tailor
 import com.benjfletch.tinytowns.model.buildings.TestAttraction
@@ -14,6 +13,7 @@ import com.benjfletch.tinytowns.model.buildings.TestPlaceOfWorship
 import com.benjfletch.tinytowns.model.buildings.TestRestaurant
 import com.benjfletch.tinytowns.model.buildings.TestShop
 import com.benjfletch.tinytowns.model.buildings.Theater
+import com.benjfletch.tinytowns.model.buildings.UnfedCottage
 import org.junit.jupiter.params.provider.Arguments
 import java.util.stream.Stream
 
@@ -22,9 +22,9 @@ class BakeryScoringTest : AdjacencyScoringTest() {
         @JvmStatic
         fun scores(): Stream<Arguments> {
             val scores = listOf(0, 3, 3, 3, 3)
-            val foodProducerAdjacent = fullAdjacencyParameters(Bakery, TestFoodProducer, scores)
-            val goodsHandlerAdjacent = fullAdjacencyParameters(Bakery, TestGoodsHandler, scores)
-            val fPAndGHAdjacent = adjacencyParameters(Bakery, 3, TestGoodsHandler, TestFoodProducer)
+            val foodProducerAdjacent = fullAdjacencyParameters(Bakery(), TestFoodProducer, scores)
+            val goodsHandlerAdjacent = fullAdjacencyParameters(Bakery(), TestGoodsHandler, scores)
+            val fPAndGHAdjacent = adjacencyParameters(Bakery(), 3, TestGoodsHandler, TestFoodProducer)
             return foodProducerAdjacent.plus(goodsHandlerAdjacent).plusElement(fPAndGHAdjacent).stream()
         }
     }
@@ -35,7 +35,7 @@ class MarketScoringTest : RowColumnScoringTest() {
         @JvmStatic
         fun scores(): Stream<Arguments> {
             val scores = listOf(1, 2, 3, 1, 2, 3, 1, 2, 3)
-            return fullRowColParameters(Market, TestShop, scores).stream()
+            return fullRowColParameters(Market(), TestShop, scores).stream()
         }
     }
 }
@@ -53,17 +53,17 @@ class TailorScoringTest : ScoringTest() {
                     Location(3, 3))
 
             val emptyBoard = Board()
-            emptyBoard.place(origin, Tailor)
-            arguments.add(Arguments.of(Tailor, origin, emptyBoard.gameGrid, 1))
+            emptyBoard.place(origin, Tailor())
+            arguments.add(Arguments.of(Tailor(), origin, emptyBoard.gameGrid, 1))
 
             val statefulBoard = Board()
-            statefulBoard.place(origin, Tailor)
+            statefulBoard.place(origin, Tailor())
 
             centreLocations.forEachIndexed { index, location ->
                 val board = Board()
                 statefulBoard.place(location, TestShop)
                 board.gameGrid.putAll(statefulBoard.gameGrid)
-                arguments.add(Arguments.of(Tailor, origin, board.gameGrid, index + 1 + 1))
+                arguments.add(Arguments.of(Tailor(), origin, board.gameGrid, index + 1 + 1))
             }
             return arguments.stream()
         }
@@ -84,21 +84,21 @@ class TheaterScoringTest : RowColumnScoringTest() {
                     Location(3, 1),
                     Location(4, 1),
             )
-            val types = listOf(Cottage.Unfed, TestAttraction, TestGoodsHandler, TestFoodProducer,
+            val types = listOf(UnfedCottage(), TestAttraction, TestGoodsHandler, TestFoodProducer,
                     TestPlaceOfWorship, TestRestaurant, TestMonument)
 
             val emptyBoard = Board()
-            emptyBoard.place(origin, Theater)
-            arguments.add(Arguments.of(Theater, origin, emptyBoard.gameGrid, 0))
+            emptyBoard.place(origin, Theater())
+            arguments.add(Arguments.of(Theater(), origin, emptyBoard.gameGrid, 0))
 
             val statefulBoard = Board()
-            statefulBoard.place(origin, Theater)
+            statefulBoard.place(origin, Theater())
 
             rowAndColLocations.forEachIndexed { index, location ->
                 val board = Board()
                 statefulBoard.place(location, types[index])
                 board.gameGrid.putAll(statefulBoard.gameGrid)
-                arguments.add(Arguments.of(Theater, origin, board.gameGrid, index + 1))
+                arguments.add(Arguments.of(Theater(), origin, board.gameGrid, index + 1))
             }
             return arguments.stream()
         }

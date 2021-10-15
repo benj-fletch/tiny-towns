@@ -1,6 +1,7 @@
 package com.benjfletch.tinytowns.model
 
 import com.benjfletch.tinytowns.ShapeException
+import kotlinx.serialization.Serializable
 
 /** Representation of the shape and resources required to build a specific [Building]. Each [Shape] is represented
  * by an NxM matrix of [Resources][Resource], with empty squares populated with [null].
@@ -23,6 +24,7 @@ import com.benjfletch.tinytowns.ShapeException
  *                      STONE                           WOOD
  * ```
  */
+@Serializable
 data class Shape(val matrix: ResourceMatrix) {
     /** Verify that all spaces in [matrix] have been populated with a [Resource] or with null */
     init {

@@ -40,14 +40,14 @@ class WarehouseScoringTest: FlatScoreTest() {
         @JvmStatic
         fun scores(): Stream<Arguments> {
             val warehouseOneResource = Warehouse()
-            warehouseOneResource.holdResource(WHEAT)
+            warehouseOneResource.holdResource(WHEAT())
             val warehouseTwoResources = Warehouse()
-            warehouseTwoResources.holdResource(WHEAT)
-            warehouseTwoResources.holdResource(WHEAT)
+            warehouseTwoResources.holdResource(WHEAT())
+            warehouseTwoResources.holdResource(WHEAT())
             val warehouseThreeResources = Warehouse()
-            warehouseThreeResources.holdResource(WHEAT)
-            warehouseThreeResources.holdResource(WHEAT)
-            warehouseThreeResources.holdResource(WHEAT)
+            warehouseThreeResources.holdResource(WHEAT())
+            warehouseThreeResources.holdResource(WHEAT())
+            warehouseThreeResources.holdResource(WHEAT())
             return Stream.of(
                     scores(warehouseOneResource,-1),
                     scores(warehouseTwoResources,-2),

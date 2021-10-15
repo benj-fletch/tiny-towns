@@ -31,12 +31,14 @@ abstract class RowColumnScoringTest: ScoringTest() {
 
             (0 until numberInRow).forEach {
                 val loc = board.gameGrid.row(centre).keys
+                        .map { Location.fromString(it) }
                         .filter { loc -> loc != centre }
                         .toList()[it]
                 board.place(loc, toPlaceInRow)
             }
             (0 until numberInCol).forEach {
                 val loc = board.gameGrid.col(centre).keys
+                        .map { Location.fromString(it) }
                         .filter { loc -> loc != centre }
                         .toList()[it]
                 board.place(loc, toPlaceInRow)

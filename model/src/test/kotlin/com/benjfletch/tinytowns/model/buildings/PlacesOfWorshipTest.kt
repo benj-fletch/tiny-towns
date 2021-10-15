@@ -1,129 +1,41 @@
 package com.benjfletch.tinytowns.model.buildings
 
-import com.benjfletch.tinytowns.model.BRICK
-import com.benjfletch.tinytowns.model.GLASS
-import com.benjfletch.tinytowns.model.NONE
-import com.benjfletch.tinytowns.model.STONE
-import com.benjfletch.tinytowns.model.WOOD
-import org.junit.jupiter.params.provider.Arguments
-import java.util.stream.Stream
+import com.benjfletch.tinytowns.model.getSerializer
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import org.assertj.core.api.Assertions
+import org.junit.jupiter.api.Test
 
-class AbbeyBuildingTest : BuildingInstanceTest() {
-    companion object {
-        @JvmStatic
-        fun buildingOrientations(): Stream<Arguments> {
-            return Stream.of(Arguments.of(
-                    buildingOrientations(Abbey) {
-                        orientation {
-                            row(NONE, NONE, GLASS)
-                            row(BRICK, STONE, STONE)
-                        }
-                        orientation {
-                            row(BRICK, NONE)
-                            row(STONE, NONE)
-                            row(STONE, GLASS)
-                        }
-                        orientation {
-                            row(STONE, STONE, BRICK)
-                            row(GLASS, NONE, NONE)
-                        }
-                        orientation {
-                            row(GLASS, STONE)
-                            row(NONE, STONE)
-                            row(NONE, BRICK)
-                        }
-                    }
-            ))
-        }
+class PlacesOfWorshipTest {
+    @Test
+    fun `Abbey can be serialized and deserialized`() {
+        val abbey = Abbey()
+        val serialized = getSerializer().encodeToString(abbey)
+        val deserialized = getSerializer().decodeFromString<Abbey>(serialized)
+        Assertions.assertThat(abbey).isEqualTo(deserialized)
     }
-}
 
-class CloisterBuildingTest : BuildingInstanceTest() {
-    companion object {
-        @JvmStatic
-        fun buildingOrientations(): Stream<Arguments> {
-            return Stream.of(Arguments.of(
-                    buildingOrientations(Cloister) {
-                        orientation {
-                            row(NONE, NONE, GLASS)
-                            row(WOOD, BRICK, STONE)
-                        }
-                        orientation {
-                            row(WOOD, NONE)
-                            row(BRICK, NONE)
-                            row(STONE, GLASS)
-                        }
-                        orientation {
-                            row(STONE, BRICK, WOOD)
-                            row(GLASS, NONE, NONE)
-                        }
-                        orientation {
-                            row(GLASS, STONE)
-                            row(NONE, BRICK)
-                            row(NONE, WOOD)
-                        }
-                    }
-            ))
-        }
+    @Test
+    fun `Cloister can be serialized and deserialized`() {
+        val cloister = Cloister()
+        val serialized = getSerializer().encodeToString(cloister)
+        val deserialized = getSerializer().decodeFromString<Cloister>(serialized)
+        Assertions.assertThat(cloister).isEqualTo(deserialized)
     }
-}
 
-class ChapelBuildingTest : BuildingInstanceTest() {
-    companion object {
-        @JvmStatic
-        fun buildingOrientations(): Stream<Arguments> {
-            return Stream.of(Arguments.of(
-                    buildingOrientations(Chapel) {
-                        orientation {
-                            row(NONE, NONE, GLASS)
-                            row(STONE, GLASS, STONE)
-                        }
-                        orientation {
-                            row(STONE, NONE)
-                            row(GLASS, NONE)
-                            row(STONE, GLASS)
-                        }
-                        orientation {
-                            row(STONE, GLASS, STONE)
-                            row(GLASS, NONE, NONE)
-                        }
-                        orientation {
-                            row(GLASS, STONE)
-                            row(NONE, GLASS)
-                            row(NONE, STONE)
-                        }
-                    }
-            ))
-        }
+    @Test
+    fun `Chapel can be serialized and deserialized`() {
+        val chapel = Chapel()
+        val serialized = getSerializer().encodeToString(chapel)
+        val deserialized = getSerializer().decodeFromString<Chapel>(serialized)
+        Assertions.assertThat(chapel).isEqualTo(deserialized)
     }
-}
 
-class TempleBuildingTest : BuildingInstanceTest() {
-    companion object {
-        @JvmStatic
-        fun buildingOrientations(): Stream<Arguments> {
-            return Stream.of(Arguments.of(
-                    buildingOrientations(Temple) {
-                        orientation {
-                            row(NONE, NONE, GLASS)
-                            row(BRICK, BRICK, STONE)
-                        }
-                        orientation {
-                            row(BRICK, NONE)
-                            row(BRICK, NONE)
-                            row(STONE, GLASS)
-                        }
-                        orientation {
-                            row(STONE, BRICK, BRICK)
-                            row(GLASS, NONE, NONE)
-                        }
-                        orientation {
-                            row(GLASS, STONE)
-                            row(NONE, BRICK)
-                            row(NONE, BRICK)
-                        }
-                    }
-            ))
-        }
+    @Test
+    fun `Temple can be serialized and deserialized`() {
+        val temple = Temple()
+        val serialized = getSerializer().encodeToString(temple)
+        val deserialized = getSerializer().decodeFromString<Temple>(serialized)
+        Assertions.assertThat(temple).isEqualTo(deserialized)
     }
 }

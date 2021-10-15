@@ -1,56 +1,65 @@
 package com.benjfletch.tinytowns.model.buildings
 
-import com.benjfletch.tinytowns.model.GameGrid
-import com.benjfletch.tinytowns.model.Location
 import com.benjfletch.tinytowns.model.BRICK
 import com.benjfletch.tinytowns.model.GLASS
+import com.benjfletch.tinytowns.model.GameGrid
+import com.benjfletch.tinytowns.model.Location
 import com.benjfletch.tinytowns.model.NONE
 import com.benjfletch.tinytowns.model.STONE
-import com.benjfletch.tinytowns.model.WOOD
 import com.benjfletch.tinytowns.model.Shape
+import com.benjfletch.tinytowns.model.WOOD
 import com.benjfletch.tinytowns.model.adjacentPieces
 import com.benjfletch.tinytowns.model.cornerSpaces
 import com.benjfletch.tinytowns.model.score.AccumulativeScore
 import com.benjfletch.tinytowns.model.score.IfAdjacentScore
 import com.benjfletch.tinytowns.model.score.NotAdjacentScore
 import com.benjfletch.tinytowns.model.score.SpecifiedPositionScore
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlin.reflect.KClass
 
 /** Super interface for all "Places of Worship" (Orange) implemented in the game */
 interface PlaceOfWorship: Building
 
-object Abbey: PlaceOfWorship, NotAdjacentScore {
-    override val pieceName = "Abbey"
-    override val text = "3 (point) if not adjacent to (GoodsHandler), (Restaurant) or (Shop) "
-    override val shape = Shape(listOf(
-            listOf(NONE, NONE, GLASS),
-            listOf(BRICK, STONE, STONE)
-    ))
+@Serializable
+@SerialName("abbey")
+data class Abbey(
+    override val pieceName: String = "Abbey",
+    override val text: String = "3 (point) if not adjacent to (GoodsHandler), (Restaurant) or (Shop) ",
+    override val shape: Shape = Shape(listOf(
+        listOf(NONE(), NONE(), GLASS()),
+        listOf(BRICK(), STONE(), STONE())
+    )),
 
-    override val scoreWhenNotAdjacent = 3
-    override val adjacentTypes = listOf(GoodsHandler::class, Restaurant::class, Shop::class)
-}
+    override val scoreWhenNotAdjacent: Int = 3,
+    @Transient override val adjacentTypes: List<KClass<out Building>> = listOf(GoodsHandler::class, Restaurant::class, Shop::class),
+): PlaceOfWorship, NotAdjacentScore
 
-object Cloister: PlaceOfWorship, SpecifiedPositionScore {
-    override val pieceName = "Cloister"
-    override val text = "1 (point) for each (PlaceOfWorship) in a corner of your town"
-    override val shape = Shape(listOf(
-            listOf(NONE, NONE, GLASS),
-            listOf(WOOD, BRICK, STONE)))
-
+@Serializable
+@SerialName("cloister")
+data class Cloister(
+    override val pieceName: String = "Cloister",
+    override val text: String = "1 (point) for each (PlaceOfWorship) in a corner of your town",
+    override val shape: Shape = Shape(listOf(
+        listOf(NONE(), NONE(), GLASS()),
+        listOf(WOOD(), BRICK(), STONE()))),
+): PlaceOfWorship, SpecifiedPositionScore {
     override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
         val scorePerBuilding = 1
         val cornerPieces = gameGrid.cornerSpaces()
         return scorePerBuilding * cornerPieces.count { PlaceOfWorship::class.isInstance(it.value) }
     }
 }
-
-object Chapel: PlaceOfWorship, AccumulativeScore {
-    override val pieceName = "Chapel"
-    override val text = "1 (point) for each fed (Cottage)."
-    override val shape = Shape(listOf(
-            listOf(NONE, NONE, GLASS),
-            listOf(STONE, GLASS, STONE)))
-
+@Serializable
+@SerialName("chapel")
+data class Chapel(
+    override val pieceName: String = "Chapel",
+    override val text: String = "1 (point) for each fed (Cottage).",
+    override val shape: Shape = Shape(listOf(
+        listOf(NONE(), NONE(), GLASS()),
+        listOf(STONE(), GLASS(), STONE()))),
+): PlaceOfWorship, AccumulativeScore {
     override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
         return gameGrid.values
                 .filterIsInstance<Cottage>()
@@ -58,16 +67,18 @@ object Chapel: PlaceOfWorship, AccumulativeScore {
     }
 }
 
-object Temple: PlaceOfWorship, IfAdjacentScore {
-    override val pieceName = "Temple"
-    override val text = "4 (point) if adjacent to 2 or more fed (Cottage). "
-    override val shape = Shape(listOf(
-            listOf(NONE, NONE, GLASS),
-            listOf(BRICK, BRICK, STONE)))
+@Serializable
+@SerialName("temple")
+data class Temple(
+    override val pieceName: String = "Temple",
+    override val text: String = "4 (point) if adjacent to 2 or more fed (Cottage). ",
+    override val shape: Shape = Shape(listOf(
+        listOf(NONE(), NONE(), GLASS()),
+        listOf(BRICK(), BRICK(), STONE()))),
 
-    override val adjacentTypes = listOf(Cottage::class)
-    override val scoreWhenAdjacent = 4
-
+    @Transient override val adjacentTypes: List<KClass<Cottage>> = listOf(Cottage::class),
+    override val scoreWhenAdjacent: Int = 4,
+): PlaceOfWorship, IfAdjacentScore {
     override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
         val fedCottages = gameGrid.adjacentPieces(pieceLocation)
                 .filterIsInstance<Cottage>()
