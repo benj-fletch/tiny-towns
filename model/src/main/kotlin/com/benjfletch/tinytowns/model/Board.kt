@@ -3,16 +3,18 @@ package com.benjfletch.tinytowns.model
 import com.benjfletch.tinytowns.BoardException
 import com.benjfletch.tinytowns.model.buildings.Building
 import com.benjfletch.tinytowns.model.buildings.Feeder
+import kotlinx.serialization.Serializable
 
 /** Representation of the game board, with a configurable size */
-data class Board(private val size: Int = 4) {
-    val gameGrid: MutableMap<Location, GamePiece> = mutableMapOf()
+@Serializable
+data class Board(val size: Int = 4) {
+    val gameGrid: MutableMap<String, GamePiece> = mutableMapOf()
 
     init {
         if (size < 1) throw BoardException("Board size $size is invalid. Must be > 1.")
         val boardSize = IntRange(1, size)
         rangesAsLocations(boardSize, boardSize)
-                .map { it to EmptySpace }
+                .map { it.toString() to EmptySpace() }
                 .toMap(gameGrid)
     }
 
@@ -24,15 +26,19 @@ data class Board(private val size: Int = 4) {
      *
      * in which case a [BoardException] is thrown.
      */
-    fun place(location: Location, piece: GamePiece) {
+    fun place(location: String, piece: GamePiece) {
         checkLocationIsOnBoard(location)
         checkLocationIsUnoccupied(location)
         gameGrid[location] = piece
     }
 
+    fun place(location: Location, piece: GamePiece) {
+        place(location.toString(), piece)
+    }
+
     /** Sets all spaces on this [Board] to [EmptySpace] **/
     fun clear() {
-        gameGrid.replaceAll { _, _ -> EmptySpace }
+        gameGrid.replaceAll { _, _ -> EmptySpace() }
     }
 
     /** Set all [locations] on this [Board] to [EmptySpace] */
@@ -42,8 +48,13 @@ data class Board(private val size: Int = 4) {
 
     /** Set [location] on this [Board] to [EmptySpace] */
     fun remove(location: Location) {
+        remove(location.toString())
+    }
+
+    /** Set [location] on this [Board] to [EmptySpace] */
+    fun remove(location: String) {
         checkLocationIsOnBoard(location)
-        gameGrid[location] = EmptySpace
+        gameGrid[location] = EmptySpace()
     }
 
     /**
@@ -66,6 +77,10 @@ data class Board(private val size: Int = 4) {
         place(targetLocation, targetBuilding)
     }
 
+    fun build(components: Map<String, Resource>, targetLocation: String, targetBuilding: Building) {
+        build(components.mapKeys { Location.fromString(it.key) }, Location.fromString(targetLocation), targetBuilding)
+    }
+
     /**
      * Update the [gameGrid] with the fed variant of [FeedableBuildings][FeedableBuilding] by executing [Feeder.feed] for
      * each of the [Feeders][Feeder] in the current game state.
@@ -73,7 +88,7 @@ data class Board(private val size: Int = 4) {
     fun feed() {
         gameGrid.forEach { (loc, piece) ->
                     if(piece is Feeder) {
-                        piece.feed(loc, gameGrid)
+                        piece.feed(Location.fromString(loc), gameGrid)
                     }
                 }
     }
@@ -83,6 +98,9 @@ data class Board(private val size: Int = 4) {
      * @throws BoardException when [location] has either x or y out of bounds.
      */
     private fun checkLocationIsOnBoard(location: Location) {
+        checkLocationIsOnBoard(location.toString())
+    }
+    private fun checkLocationIsOnBoard(location: String) {
         if (!gameGrid.containsKey(location)) {
             throw BoardException("$location is out of bounds.")
         }
@@ -93,11 +111,15 @@ data class Board(private val size: Int = 4) {
      * is currently an [EmptySpace].
      * @throws BoardException when location is out of bounds or [location] is occupied by anything except [EmptySpace]
      */
-    private fun checkLocationIsUnoccupied(location: Location) {
+    private fun checkLocationIsUnoccupied(location: String) {
         checkLocationIsOnBoard(location)
-        if (gameGrid[location] != EmptySpace) {
+        if (gameGrid[location] != EmptySpace()) {
             throw BoardException("$location is occupied by ${gameGrid[location]?.pieceName}.")
         }
+    }
+
+    private fun checkLocationIsUnoccupied(location: Location) {
+        checkLocationIsOnBoard(location.toString())
     }
 
     /**

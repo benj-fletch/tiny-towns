@@ -3,55 +3,67 @@ package com.benjfletch.tinytowns.model.buildings
 import com.benjfletch.tinytowns.model.BRICK
 import com.benjfletch.tinytowns.model.GLASS
 import com.benjfletch.tinytowns.model.STONE
+import com.benjfletch.tinytowns.model.Shape
 import com.benjfletch.tinytowns.model.WHEAT
 import com.benjfletch.tinytowns.model.WOOD
-import com.benjfletch.tinytowns.model.Shape
 import com.benjfletch.tinytowns.model.score.AccumulativeConstructedScore
 import com.benjfletch.tinytowns.model.score.MoreBuildingTypeThanOtherPlayerScore
 import com.benjfletch.tinytowns.model.score.NotRowColumnScore
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlin.reflect.KClass
 
 /** Super interface for all Restaurants (Green) implemented in the game */
 interface Restaurant: Building
 
-object Almshouse: Restaurant, AccumulativeConstructedScore {
-    override val pieceName = "Almshouse"
-    override val text = "(Point) based on your constructed (Restaurant)"
-    override val shape = Shape(listOf(
-            listOf(STONE, STONE, GLASS)))
+@Serializable
+@SerialName("almshouse")
+data class Almshouse(
+    override val pieceName: String = "Almshouse",
+    override val text: String = "(Point) based on your constructed (Restaurant)",
+    override val shape: Shape = Shape(listOf(
+        listOf(STONE(), STONE(), GLASS()))),
 
-    override val types = listOf(Restaurant::class)
-    override val scores = mapOf(0 to 0, 1 to -1, 2 to 5, 3 to -3, 4 to 15, 5 to -5, 6 to 26)
-    override val maxScore = 26
-}
+    @Transient override val types: List<KClass<Restaurant>> = listOf(Restaurant::class),
+    override val scores: Map<Int, Int> = mapOf(0 to 0, 1 to -1, 2 to 5, 3 to -3, 4 to 15, 5 to -5, 6 to 26),
+    override val maxScore: Int = 26,
+): Restaurant, AccumulativeConstructedScore
 
-object FeastHall: Restaurant, MoreBuildingTypeThanOtherPlayerScore {
-    override val pieceName = "Feast Hall"
-    override val text = "2 (Point). +1 (Point) if you have more (Restaurant) than the player on your right."
-    override val shape = Shape(listOf(
-            listOf(WOOD, WOOD, GLASS)))
+@Serializable
+@SerialName("feastHall")
+data class FeastHall(
+    override val pieceName: String = "Feast Hall",
+    override val text: String = "2 (Point). +1 (Point) if you have more (Restaurant) than the player on your right.",
+    override val shape: Shape = Shape(listOf(
+        listOf(WOOD(), WOOD(), GLASS()))),
 
-    override val baseScore = 2
-    override val buildingType = FeastHall
-    override val bonusIfPlayerHasMore = 1
-}
+    override val baseScore: Int = 2,
+    @Transient override val buildingType: KClass<out Building> = FeastHall::class,
+    override val bonusIfPlayerHasMore: Int = 1,
+): Restaurant, MoreBuildingTypeThanOtherPlayerScore
 
-object Inn: Restaurant, NotRowColumnScore {
-    override val pieceName = "Inn"
-    override val text = "3 (Point) if not in a row or column with another (Restaurant)."
-    override val shape = Shape(listOf(
-            listOf(WHEAT, STONE, WOOD)))
+@Serializable
+@SerialName("inn")
+data class Inn(
+    override val pieceName: String = "Inn",
+    override val text: String = "3 (Point) if not in a row or column with another (Restaurant).",
+    override val shape: Shape = Shape(listOf(
+        listOf(WHEAT(), STONE(), WOOD()))),
 
-    override val scoreWhenNotInRowOrCol = 3
-    override val types = listOf(Restaurant::class)
-}
+    override val scoreWhenNotInRowOrCol: Int = 3,
+    @Transient override val types: List<KClass<Restaurant>> = listOf(Restaurant::class),
+): Restaurant, NotRowColumnScore
 
-object Tavern: Restaurant, AccumulativeConstructedScore {
-    override val pieceName = "Tavern"
-    override val text = "(Point) based on your constructed (Restaurant)."
-    override val shape = Shape(listOf(
-            listOf(BRICK, BRICK, GLASS)))
+@Serializable
+@SerialName("tavern")
+data class Tavern(
+    override val pieceName: String = "Tavern",
+    override val text: String = "(Point) based on your constructed (Restaurant).",
+    override val shape: Shape = Shape(listOf(
+        listOf(BRICK(), BRICK(), GLASS()))),
 
-    override val types = listOf(Restaurant::class)
-    override val scores = mapOf(0 to 0, 1 to 2, 2 to 5, 3 to 9, 4 to 14, 5 to 20)
-    override val maxScore = 20
-}
+    @Transient override val types: List<KClass<Restaurant>> = listOf(Restaurant::class),
+    override val scores: Map<Int, Int> = mapOf(0 to 0, 1 to 2, 2 to 5, 3 to 9, 4 to 14, 5 to 20),
+    override val maxScore: Int = 20,
+): Restaurant, AccumulativeConstructedScore

@@ -2,9 +2,11 @@ package com.benjfletch.tinytowns.model
 
 import com.benjfletch.tinytowns.BoardException
 import com.benjfletch.tinytowns.BuildingException
-import com.benjfletch.tinytowns.model.buildings.Cottage
 import com.benjfletch.tinytowns.model.buildings.TestAnywhereBuilding
 import com.benjfletch.tinytowns.model.buildings.TestBuilding
+import com.benjfletch.tinytowns.model.buildings.UnfedCottage
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatCode
 import org.junit.jupiter.api.BeforeEach
@@ -15,9 +17,11 @@ class BoardTest {
 
     private val origin = Location(1, 1)
     private val oneOne = Location(2, 2)
+    private val originString = Location(1, 1).toString()
+    private val oneOneString = Location(2, 2).toString()
     private val outOfBounds = Location(100, 100)
 
-    private val cottageResources = mapOf(Location(1, 1) to BRICK, Location(2, 1) to GLASS, Location(2, 2) to WHEAT)
+    private val cottageResources = mapOf(Location(1, 1) to BRICK(), Location(2, 1) to GLASS(), Location(2, 2) to WHEAT())
     private val cottageTargetLoc = oneOne
 
 
@@ -31,7 +35,7 @@ class BoardTest {
         assertThat(board.gameGrid).hasSize(16)
         assertThat(board.gameGrid.values).allMatch { it is EmptySpace }
 
-        val possibleCoordinates = (1 .. 4).flatMap { x -> (1 .. 4).map { y -> Location(x, y) } }
+        val possibleCoordinates = (1 .. 4).flatMap { x -> (1 .. 4).map { y -> Location(x, y).toString() } }
         assertThat(board.gameGrid.keys).containsExactlyInAnyOrderElementsOf(possibleCoordinates)
     }
 
@@ -64,23 +68,23 @@ class BoardTest {
 
     @Test
     fun `Places Resource at specified location`() {
-        val resource = BRICK
+        val resource = BRICK()
         board.place(origin, resource)
 
-        assertThat(board.gameGrid[origin]).isEqualTo(resource)
+        assertThat(board.gameGrid[originString]).isEqualTo(resource)
     }
 
     @Test
     fun `Places Building at specified location`() {
-        val building = Cottage.Unfed
-        board.place(origin, Cottage.Unfed)
+        val building = UnfedCottage()
+        board.place(origin, UnfedCottage())
 
-        assertThat(board.gameGrid[origin]).isEqualTo(building)
+        assertThat(board.gameGrid[originString]).isEqualTo(building)
     }
 
     @Test
     fun `Throws Exception when placing to a which location is not on the board`() {
-        val resource = BRICK
+        val resource = BRICK()
         assertThrowsBoardException("-1:0 is out of bounds.") { board.place(Location(-1, 0), resource) }
         assertThrowsBoardException("0:-1 is out of bounds.") { board.place(Location(0, -1), resource) }
         assertThrowsBoardException("-1:-1 is out of bounds.") { board.place(Location(-1, -1), resource) }
@@ -91,7 +95,7 @@ class BoardTest {
 
     @Test
     fun `Throws Exception when placing an object on an occupied location`() {
-        val resource = BRICK
+        val resource = BRICK()
         board.place(origin, resource)
 
         assertThrowsBoardException("$origin is occupied by ${resource.pieceName}.") {
@@ -101,35 +105,35 @@ class BoardTest {
 
     @Test
     fun `Removes single GamePiece from specified location`() {
-        assertThat(board.gameGrid[origin]).isEqualTo(EmptySpace)
+        assertThat(board.gameGrid[originString]).isEqualTo(EmptySpace())
 
-        board.place(origin, BRICK)
-        assertThat(board.gameGrid[origin]).isEqualTo(BRICK)
+        board.place(origin, BRICK())
+        assertThat(board.gameGrid[originString]).isEqualTo(BRICK())
 
         board.remove(origin)
-        assertThat(board.gameGrid[origin]).isEqualTo(EmptySpace)
+        assertThat(board.gameGrid[originString]).isEqualTo(EmptySpace())
     }
 
     @Test
     fun `Removes multiple GamePieces from specified Locations`() {
-        assertThat(board.gameGrid[origin]).isEqualTo(EmptySpace)
-        assertThat(board.gameGrid[oneOne]).isEqualTo(EmptySpace)
+        assertThat(board.gameGrid[originString]).isEqualTo(EmptySpace())
+        assertThat(board.gameGrid[oneOneString]).isEqualTo(EmptySpace())
 
-        board.place(origin, BRICK)
-        board.place(oneOne, GLASS)
-        assertThat(board.gameGrid[origin]).isEqualTo(BRICK)
-        assertThat(board.gameGrid[oneOne]).isEqualTo(GLASS)
+        board.place(origin, BRICK())
+        board.place(oneOne, GLASS())
+        assertThat(board.gameGrid[originString]).isEqualTo(BRICK())
+        assertThat(board.gameGrid[oneOneString]).isEqualTo(GLASS())
 
         board.remove(listOf(origin, oneOne))
-        assertThat(board.gameGrid[origin]).isEqualTo(EmptySpace)
-        assertThat(board.gameGrid[oneOne]).isEqualTo(EmptySpace)
+        assertThat(board.gameGrid[originString]).isEqualTo(EmptySpace())
+        assertThat(board.gameGrid[oneOneString]).isEqualTo(EmptySpace())
     }
 
     @Test
     fun `Remove handles space already being empty`() {
-        assertThat(board.gameGrid[origin]).isEqualTo(EmptySpace)
+        assertThat(board.gameGrid[originString]).isEqualTo(EmptySpace())
         assertThatCode { board.remove(origin) }.doesNotThrowAnyException()
-        assertThat(board.gameGrid[origin]).isEqualTo(EmptySpace)
+        assertThat(board.gameGrid[originString]).isEqualTo(EmptySpace())
     }
 
     @Test
@@ -146,13 +150,13 @@ class BoardTest {
     fun `Removes all resources used for building when build is valid`() {
         cottageResources
                 .filter { it.key != cottageTargetLoc }
-                .forEach { assertThat(board.gameGrid[it.key]).isEqualTo(EmptySpace) }
+                .forEach { assertThat(board.gameGrid[it.key.toString()]).isEqualTo(EmptySpace()) }
     }
 
     @Test
     fun `Places building at targetLocation when build is valid`() {
         buildCottage()
-        assertThat(board.gameGrid[cottageTargetLoc]).isEqualTo(Cottage.Unfed)
+        assertThat(board.gameGrid[cottageTargetLoc.toString()]).isEqualTo(UnfedCottage())
     }
 
     @Test
@@ -164,16 +168,16 @@ class BoardTest {
 
     @Test
     fun `Throws Exception when Matrix does not match Building Shape`() {
-        val nonMatchingMatrix = mapOf(Location(1, 1) to WHEAT)
+        val nonMatchingMatrix = mapOf(Location(1, 1) to WHEAT())
         val targetLoc = Location(1, 1)
-        assertThatCode { board.build(nonMatchingMatrix, targetLoc, Cottage.Unfed) }
+        assertThatCode { board.build(nonMatchingMatrix, targetLoc, UnfedCottage()) }
                 .isInstanceOf(BuildingException::class.java)
-                .hasMessageContaining("Resources [[WHEAT]] in this configuration cannot be used to build Cottage")
+                .hasMessageContaining("Resources [[WHEAT(pieceName=wheat)]] in this configuration cannot be used to build Cottage")
     }
 
     @Test
     fun `Throws exception when at least one component location is out of bounds`() {
-        val components = mapOf(outOfBounds to GLASS)
+        val components = mapOf(outOfBounds to GLASS())
         assertThrowsBoardException("100:100 is out of bounds") {
             board.build(components, origin, TestBuilding)
         }
@@ -190,35 +194,42 @@ class BoardTest {
     fun `Considers build valid when targetLocation is not in componentLocations and Building can be built anywhere`() {
         val targetLoc = Location(2, 2)
 
-        assertThatCode { board.build(mapOf(origin to GLASS), targetLoc, TestAnywhereBuilding) }
+        assertThatCode { board.build(mapOf(origin to GLASS()), targetLoc, TestAnywhereBuilding) }
                 .doesNotThrowAnyException()
-        assertThat(board.gameGrid[targetLoc]).isEqualTo(TestAnywhereBuilding)
+        assertThat(board.gameGrid[targetLoc.toString()]).isEqualTo(TestAnywhereBuilding)
     }
 
     @Test
     fun `Throws exception when building can be built anywhere but target is occupied`() {
         val targetLoc = Location(2, 2)
-        board.place(targetLoc, GLASS)
+        board.place(targetLoc, GLASS())
 
-        assertThatCode { board.build(mapOf(origin to GLASS), targetLoc, TestAnywhereBuilding) }
+        assertThatCode { board.build(mapOf(origin to GLASS()), targetLoc, TestAnywhereBuilding) }
                 .isInstanceOf(BoardException::class.java)
-                .hasMessageContaining("$targetLoc is occupied by ${GLASS.pieceName}")
+                .hasMessageContaining("$targetLoc is occupied by ${GLASS().pieceName}")
     }
 
     @Test
     fun `Clears the whole board`() {
         buildCottage()
-        assertThat(board.gameGrid[cottageTargetLoc]).isEqualTo(Cottage.Unfed)
+        assertThat(board.gameGrid[cottageTargetLoc.toString()]).isEqualTo(UnfedCottage())
         board.clear()
         board.gameGrid.forEach {
-            assertThat(board.gameGrid[it.key]).isEqualTo(EmptySpace)
+            assertThat(board.gameGrid[it.key]).isEqualTo(EmptySpace())
         }
     }
 
+    @Test
+    fun `Can be serialized and deserialized`() {
+        val board = Board()
+        val serialized = getSerializer().encodeToString(board)
+        val deserialized = getSerializer().decodeFromString<Board>(serialized)
+        assertThat(board).isEqualTo(deserialized)
+    }
 
     private fun buildCottage() {
         cottageResources.forEach { board.place(it.key, it.value) }
-        board.build(cottageResources, cottageTargetLoc, Cottage.Unfed)
+        board.build(cottageResources, cottageTargetLoc, UnfedCottage())
     }
 
     private fun assertThrowsBoardException(message: String, code: () -> Unit) {

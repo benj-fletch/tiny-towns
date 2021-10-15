@@ -4,6 +4,7 @@ import com.benjfletch.tinytowns.model.GameGrid
 import com.benjfletch.tinytowns.model.Location
 import com.benjfletch.tinytowns.model.buildings.Building
 import com.benjfletch.tinytowns.model.countPieces
+import kotlin.reflect.KClass
 
 /** Super interface for all Scoring calculations which are based on another players board status */
 interface PlayerBasedScore: ScoringPiece
@@ -12,7 +13,7 @@ interface PlayerBasedScore: ScoringPiece
  * of a given [Building] than some other player */
 interface MoreBuildingTypeThanOtherPlayerScore: PlayerBasedScore {
     val baseScore: Int
-    val buildingType: Building
+    val buildingType: KClass<out Building>
     val bonusIfPlayerHasMore: Int
 
     override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {

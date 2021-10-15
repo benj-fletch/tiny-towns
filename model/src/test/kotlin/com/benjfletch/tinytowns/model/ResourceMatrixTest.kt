@@ -10,20 +10,20 @@ class ResourceMatrixTest {
     @Test
     fun `Transpose correctly transposes square matrix`() {
         val input: ResourceMatrix = listOf(
-                listOf(NONE, WHEAT),
-                listOf(BRICK, GLASS))
+                listOf(NONE(), WHEAT()),
+                listOf(BRICK(), GLASS()))
         val expected = listOf(
-                listOf(NONE, BRICK),
-                listOf(WHEAT, GLASS))
+                listOf(NONE(), BRICK()),
+                listOf(WHEAT(), GLASS()))
         assertThat(transpose(input)).isEqualTo(expected)
     }
 
     @Test
     fun `Transpose correctly transposes rectangular matrix`() {
-        val input: ResourceMatrix = listOf(listOf(WOOD, STONE))
+        val input: ResourceMatrix = listOf(listOf(WOOD(), STONE()))
         val expected = listOf(
-                listOf(WOOD),
-                listOf(STONE))
+                listOf(WOOD()),
+                listOf(STONE()))
         assertThat(transpose(input)).isEqualTo(expected)
     }
 
@@ -59,11 +59,11 @@ class ResourceMatrixTest {
     }
 
     companion object {
-        val woodStone = listOf(WOOD, STONE)
-        val woodWood = listOf(WOOD, WOOD)
-        val stoneStone = listOf(STONE, STONE)
-        val wood = listOf(WOOD)
-        val stone = listOf(STONE)
+        val woodStone = listOf(WOOD(), STONE())
+        val woodWood = listOf(WOOD(), WOOD())
+        val stoneStone = listOf(STONE(), STONE())
+        val wood = listOf(WOOD())
+        val stone = listOf(STONE())
 
         @JvmStatic
         fun matrices(): List<Arguments> = listOf(
@@ -71,35 +71,35 @@ class ResourceMatrixTest {
                 Arguments.of(listOf(woodStone), listOf(wood, stone)),
                 Arguments.of(listOf(stone, wood), listOf(woodStone)),
                 Arguments.of(listOf(woodStone, woodStone), listOf(woodWood, stoneStone)),
-                Arguments.of(listOf(stone, wood, stone), listOf(listOf(STONE, WOOD, STONE))),
+                Arguments.of(listOf(stone, wood, stone), listOf(listOf(STONE(), WOOD(), STONE()))),
                 Arguments.of(listOf(
-                        listOf(STONE, WOOD, WHEAT),
-                        listOf(BRICK, GLASS, NONE),
-                        listOf(NONE, GLASS, BRICK)
+                        listOf(STONE(), WOOD(), WHEAT()),
+                        listOf(BRICK(), GLASS(), NONE()),
+                        listOf(NONE(), GLASS(), BRICK())
                 ),
                         listOf(
-                                listOf(NONE, BRICK, STONE),
-                                listOf(GLASS, GLASS, WOOD),
-                                listOf(BRICK, NONE, WHEAT)
+                                listOf(NONE(), BRICK(), STONE()),
+                                listOf(GLASS(), GLASS(), WOOD()),
+                                listOf(BRICK(), NONE(), WHEAT())
                         )),
         )
 
         @JvmStatic
         fun mapsToMatrices(): List<Arguments> = listOf(
                 // 1x1
-                Arguments.of(mapOf(Location(0, 0) to GLASS), listOf(listOf(GLASS))),
+                Arguments.of(mapOf(Location(0, 0) to GLASS()), listOf(listOf(GLASS()))),
                 // 2x1
-                Arguments.of(mapOf(Location(0, 0) to GLASS, Location(1, 0) to WHEAT), listOf(listOf(GLASS, WHEAT))),
+                Arguments.of(mapOf(Location(0, 0) to GLASS(), Location(1, 0) to WHEAT()), listOf(listOf(GLASS(), WHEAT()))),
                 // 1x2
-                Arguments.of(mapOf(Location(0, 0) to GLASS, Location(0, 1) to WHEAT), listOf(listOf(WHEAT), listOf(GLASS))),
+                Arguments.of(mapOf(Location(0, 0) to GLASS(), Location(0, 1) to WHEAT()), listOf(listOf(WHEAT()), listOf(GLASS()))),
                 // 2x2 with empty space
-                Arguments.of(mapOf(Location(0, 0) to GLASS, Location(1, 0) to WHEAT, Location(0, 1) to BRICK), listOf(listOf(BRICK, NONE), listOf(GLASS, WHEAT))),
+                Arguments.of(mapOf(Location(0, 0) to GLASS(), Location(1, 0) to WHEAT(), Location(0, 1) to BRICK()), listOf(listOf(BRICK(), NONE()), listOf(GLASS(), WHEAT()))),
                 // 2x2
-                Arguments.of(mapOf(Location(0, 0) to GLASS, Location(1, 0) to WHEAT, Location(0, 1) to BRICK, Location(1, 1) to WOOD), listOf(listOf(BRICK, WOOD), listOf(GLASS, WHEAT))),
+                Arguments.of(mapOf(Location(0, 0) to GLASS(), Location(1, 0) to WHEAT(), Location(0, 1) to BRICK(), Location(1, 1) to WOOD()), listOf(listOf(BRICK(), WOOD()), listOf(GLASS(), WHEAT()))),
                 // 3x3 with empty space
-                Arguments.of(mapOf(Location(0, 0) to GLASS, Location(1, 0) to WHEAT, Location(2, 0) to STONE, Location(0, 1) to BRICK, Location(1, 1) to WOOD), listOf(listOf(BRICK, WOOD, NONE), listOf(GLASS, WHEAT, STONE))),
+                Arguments.of(mapOf(Location(0, 0) to GLASS(), Location(1, 0) to WHEAT(), Location(2, 0) to STONE(), Location(0, 1) to BRICK(), Location(1, 1) to WOOD()), listOf(listOf(BRICK(), WOOD(), NONE()), listOf(GLASS(), WHEAT(), STONE()))),
                 // 3x3
-                Arguments.of(mapOf(Location(0, 0) to GLASS, Location(1, 0) to WHEAT, Location(2, 0) to STONE, Location(0, 1) to BRICK, Location(1, 1) to WOOD, Location(2, 1) to GLASS), listOf(listOf(BRICK, WOOD, GLASS), listOf(GLASS, WHEAT, STONE))),
+                Arguments.of(mapOf(Location(0, 0) to GLASS(), Location(1, 0) to WHEAT(), Location(2, 0) to STONE(), Location(0, 1) to BRICK(), Location(1, 1) to WOOD(), Location(2, 1) to GLASS()), listOf(listOf(BRICK(), WOOD(), GLASS()), listOf(GLASS(), WHEAT(), STONE()))),
         )
     }
 }

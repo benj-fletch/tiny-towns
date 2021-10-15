@@ -1,6 +1,11 @@
 package com.benjfletch.tinytowns.model
 
+import com.benjfletch.tinytowns.LocationException
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatCode
 import org.junit.jupiter.api.Test
 
 class LocationTest {
@@ -8,6 +13,22 @@ class LocationTest {
     fun `Converts to String correctly`() {
         val location = Location(1,1)
         assertThat(location.toString()).isEqualTo("1:1")
+    }
+
+    @Test
+    fun `Converts from String correctly`() {
+        val location = Location(1,1)
+        assertThat(Location.fromString(location.toString())).isEqualTo(location)
+    }
+
+    @Test
+    fun `Throws exception when conversion from string is bad format`() {
+        val badLocationStrings = listOf("a:1", "1:a", "a:a", "a", "1-1")
+        badLocationStrings.forEach {
+            assertThatCode { Location.fromString(it) }
+                .isInstanceOf(LocationException::class.java)
+                .hasMessageContaining("Cannot parse $it")
+        }
     }
 
     @Test
@@ -25,5 +46,19 @@ class LocationTest {
         )
         val actual = location.surrounding()
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+    @Test
+    fun `Is serializable`() {
+        val location = Location(1, 1)
+        val expected = """{"x":1,"y":1}"""
+        assertThat(Json.encodeToString(location)).isEqualToIgnoringNewLines(expected)
+    }
+
+    @Test
+    fun `Is deserializable`() {
+        val expected = Location(1, 1)
+        val locationJson = """{"x":1,"y":1}"""
+        assertThat(Json.decodeFromString<Location>(locationJson)).isEqualTo(expected)
     }
 }

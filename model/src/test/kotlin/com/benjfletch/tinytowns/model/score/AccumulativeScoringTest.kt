@@ -1,6 +1,7 @@
 package com.benjfletch.tinytowns.model.score
 
 import com.benjfletch.tinytowns.model.Board
+import com.benjfletch.tinytowns.model.Location
 import com.benjfletch.tinytowns.model.buildings.Building
 import org.junit.jupiter.params.provider.Arguments
 import java.util.stream.Stream
@@ -18,7 +19,7 @@ abstract class AccumulativeScoringTest : ScoringTest() {
                         val board = Board()
                         statefulBoard.place(location, toScore)
                         board.gameGrid.putAll(statefulBoard.gameGrid)
-                        arguments.add(Arguments.of(toScore, location, board.gameGrid, scores[index]))
+                        arguments.add(Arguments.of(toScore, Location.fromString(location), board.gameGrid, scores[index]))
                     }
             return arguments.stream()
         }

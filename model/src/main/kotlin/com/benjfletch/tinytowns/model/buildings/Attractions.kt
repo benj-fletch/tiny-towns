@@ -6,42 +6,54 @@ import com.benjfletch.tinytowns.model.WOOD
 import com.benjfletch.tinytowns.model.score.AccumulativeAdjacencyScore
 import com.benjfletch.tinytowns.model.score.FlatScore
 import com.benjfletch.tinytowns.model.score.IfAdjacentScore
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlin.reflect.KClass
 
 /** Super interface for all Attraction (Grey) implemented in the game */
-interface Attraction: Building
+interface Attraction : Building
 
-object Fountain: Attraction, IfAdjacentScore {
-    override val pieceName = "Fountain"
-    override val text = "2 (Point) if adjacent to a (Attraction)."
-    override val shape = Shape(listOf(listOf(WOOD, STONE)))
+@Serializable
+@SerialName("fountain")
+data class Fountain(
+    override val pieceName: String = "Fountain",
+    override val text: String = "2 (Point) if adjacent to a (Attraction).",
+    override val shape: Shape = Shape(listOf(listOf(WOOD(), STONE()))),
 
-    override val adjacentTypes = listOf(Attraction::class)
-    override val scoreWhenAdjacent = 2
-}
+    @Transient override val adjacentTypes: Iterable<KClass<out Building>> = listOf(Attraction::class),
+    override val scoreWhenAdjacent: Int = 2,
+) : Attraction, IfAdjacentScore
 
-object Millstone: Attraction, IfAdjacentScore {
-    override val pieceName = "Millstone"
-    override val text = "2 (Point) if adjacent to a (FoodProducer) or (Shop)."
-    override val shape = Shape(listOf(listOf(WOOD, STONE)))
+@Serializable
+@SerialName("millstone")
+data class Millstone(
+    override val pieceName: String = "Millstone",
+    override val text: String = "2 (Point) if adjacent to a (FoodProducer) or (Shop).",
+    override val shape: Shape = Shape(listOf(listOf(WOOD(), STONE()))),
 
-    override val adjacentTypes = listOf(FoodProducer::class, Shop::class)
-    override val scoreWhenAdjacent = 2
-}
+    @Transient override val adjacentTypes: List<KClass<out Building>> = listOf(FoodProducer::class, Shop::class),
+    override val scoreWhenAdjacent: Int = 2,
+) : Attraction, IfAdjacentScore
 
-object Shed: Attraction, FlatScore {
-    override val pieceName = "Shed"
-    override val text = "1 (Point). May be constructed on any empty square in your town"
-    override val shape = Shape(listOf(listOf(WOOD, STONE)))
-    override val canBeBuiltAnywhere = true
+@Serializable
+@SerialName("shed")
+data class Shed(
+    override val pieceName: String = "Shed",
+    override val text: String = "1 (Point). May be constructed on any empty square in your town",
+    override val shape: Shape = Shape(listOf(listOf(WOOD(), STONE()))),
 
-    override val score = 1
-}
+    override val canBeBuiltAnywhere: Boolean = true,
+    override val score: Int = 1,
+) : Attraction, FlatScore
 
-object Well: Attraction, AccumulativeAdjacencyScore {
-    override val pieceName = "Well"
-    override val text = "1 (Point) for each adjacent (Cottage)"
-    override val shape = Shape(listOf(listOf(WOOD, STONE)))
+@Serializable
+@SerialName("well")
+data class Well(
+    override val pieceName: String = "Well",
+    override val text: String = "1 (Point) for each adjacent (Cottage)",
+    override val shape: Shape = Shape(listOf(listOf(WOOD(), STONE()))),
 
-    override val adjacentTypes = listOf(Cottage::class)
-    override val scorePerAdjacent = 1
-}
+    @Transient override val adjacentTypes: List<KClass<out Building>> = listOf(Cottage::class),
+    override val scorePerAdjacent: Int = 1,
+) : Attraction, AccumulativeAdjacencyScore

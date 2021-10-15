@@ -19,7 +19,7 @@ class BuildingTest {
 
     @Test
     fun `Correctly matches resource matrix with ALL in`() {
-        val allResourceMatrix: ResourceMatrix = listOf(listOf(ALL, STONE), listOf(NONE, GLASS))
+        val allResourceMatrix: ResourceMatrix = listOf(listOf(ALL(), STONE()), listOf(NONE(), GLASS()))
 
         assertThatCode { TestBuilding.matrixMatches(allResourceMatrix) }
                 .doesNotThrowAnyException()
@@ -27,7 +27,7 @@ class BuildingTest {
 
     @Test
     fun `Correctly matches resource matrix which is all ALLs`() {
-        val allResourceMatrix: ResourceMatrix = listOf(listOf(ALL, ALL), listOf(ALL, ALL))
+        val allResourceMatrix: ResourceMatrix = listOf(listOf(ALL(), ALL()), listOf(ALL(), ALL()))
 
         assertThatCode { TestBuilding.matrixMatches(allResourceMatrix) }
                 .doesNotThrowAnyException()
@@ -35,7 +35,7 @@ class BuildingTest {
 
     @Test
     fun `Throws exception when resource matrices do not match`() {
-        assertThatCode { TestBuilding.matrixMatches(listOf(listOf(NONE, GLASS), listOf(STONE, WHEAT))) }
+        assertThatCode { TestBuilding.matrixMatches(listOf(listOf(NONE(), GLASS()), listOf(STONE(), WHEAT()))) }
                 .isInstanceOf(BuildingException::class.java)
     }
 }

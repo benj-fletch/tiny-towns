@@ -7,28 +7,28 @@ import org.junit.jupiter.api.Test
 
 class ShapeTest {
     private val squareMatrixOne: ResourceMatrix = listOf(
-            listOf(NONE, WHEAT),
-            listOf(BRICK, GLASS))
+            listOf(NONE(), WHEAT()),
+            listOf(BRICK(), GLASS()))
     private val squareMatrixTwo: ResourceMatrix = listOf(
-            listOf(BRICK, NONE),
-            listOf(GLASS, WHEAT))
+            listOf(BRICK(), NONE()),
+            listOf(GLASS(), WHEAT()))
     private val squareMatrixThree: ResourceMatrix = listOf(
-            listOf(GLASS, BRICK),
-            listOf(WHEAT, NONE))
+            listOf(GLASS(), BRICK()),
+            listOf(WHEAT(), NONE()))
     private val squareMatrixFour: ResourceMatrix = listOf(
-            listOf(WHEAT, GLASS),
-            listOf(NONE, BRICK))
+            listOf(WHEAT(), GLASS()),
+            listOf(NONE(), BRICK()))
 
     private val rectangleMatrixOne: ResourceMatrix = listOf(
-            listOf(WOOD, STONE))
+            listOf(WOOD(), STONE()))
     private val rectangleMatrixTwo: ResourceMatrix = listOf(
-            listOf(WOOD),
-            listOf(STONE))
+            listOf(WOOD()),
+            listOf(STONE()))
     private val rectangleMatrixFour: ResourceMatrix = listOf(
-            listOf(STONE, WOOD))
+            listOf(STONE(), WOOD()))
     private val rectangleMatrixThree: ResourceMatrix = listOf(
-            listOf(STONE),
-            listOf(WOOD))
+            listOf(STONE()),
+            listOf(WOOD()))
 
     @Test
     fun `Calculates orientations of square matrix correctly`() {
@@ -44,7 +44,7 @@ class ShapeTest {
 
     @Test
     fun `Throws exception when matrix is not fully populated`() {
-        assertThatCode { Shape(listOf(listOf(STONE), listOf())) }
+        assertThatCode { Shape(listOf(listOf(STONE()), listOf())) }
                 .isInstanceOf(ShapeException::class.java)
                 .hasMessage("Invalid Shape. All columns must be populated with a Resource type.")
     }
