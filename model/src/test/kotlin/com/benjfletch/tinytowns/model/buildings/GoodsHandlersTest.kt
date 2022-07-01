@@ -145,7 +145,7 @@ class GoodsHandlersTest {
 
         assertThatCode { board.build(cottageResourcesWithTradingPost, cottageTargetLoc, UnfedCottage()) }
                 .isInstanceOf(BoardException::class.java)
-                .hasMessageContaining(("$cottageTargetLoc is occupied by ${TradingPost().pieceName}."))
+                .hasMessageContaining(("$cottageTargetLoc is occupied by ${TradingPost().pieceName}"))
     }
 
     @Test

@@ -1,0 +1,4 @@
+GET http://0.0.0.0:8080/board/create
+
+###
+GET http://0.0.0.0:8080/board?id=

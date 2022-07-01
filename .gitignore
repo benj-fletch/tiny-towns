@@ -11,3 +11,7 @@ build/
 # IDEA
 .idea/
 **.iml
+
+# Node
+**/node_modules/
+**.js.map
