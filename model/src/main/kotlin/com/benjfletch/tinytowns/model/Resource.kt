@@ -13,7 +13,7 @@ abstract class Resource: GamePiece {
     open fun removeAfterBuild(): Boolean = true
 
     companion object {
-        /** All of the resources which are "basic". i.e each of the resources themselves, not any specialisations */
+        /** All resources which are "basic". i.e each of the resources themselves, not any specialisations */
         fun basicResources(): Set<Resource> = setOf(BRICK(), GLASS(), STONE(), WOOD(), WHEAT())
     }
 
