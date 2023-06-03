@@ -13,12 +13,12 @@ interface PlayerBasedScore: ScoringPiece
  * of a given [Building] than some other player */
 interface MoreBuildingTypeThanOtherPlayerScore: PlayerBasedScore {
     val baseScore: Int
-    val buildingType: KClass<out Building>
+    val scoringBuildingType: KClass<out Building>
     val bonusIfPlayerHasMore: Int
 
     override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
-        val thisPlayerBuildingCount = gameGrid.countPieces(buildingType)
-        val otherPlayerBuildingCount = otherPlayerGrid?.countPieces(buildingType) ?: 0
+        val thisPlayerBuildingCount = gameGrid.countPieces(scoringBuildingType)
+        val otherPlayerBuildingCount = otherPlayerGrid?.countPieces(scoringBuildingType) ?: 0
         return baseScore +
                 if (thisPlayerBuildingCount > otherPlayerBuildingCount) bonusIfPlayerHasMore else 0
     }

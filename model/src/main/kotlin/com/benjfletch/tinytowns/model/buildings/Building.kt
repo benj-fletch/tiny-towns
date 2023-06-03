@@ -9,6 +9,8 @@ import com.benjfletch.tinytowns.model.Shape
 interface Building: GamePiece {
     /** Name of the building */
     override val pieceName: String
+    /** Building type which the building belongs to */
+    val buildingType: BuildingType
     /** Effect text on the card */
     val text: String
     /** Required resource configuration to build */
@@ -26,4 +28,15 @@ interface Building: GamePiece {
             throw BuildingException("Resources $resourceMatrix in this configuration cannot be used to build $pieceName")
         }
     }
+}
+
+enum class BuildingType {
+    ATTRACTION,
+    COTTAGE,
+    FOOD_PRODUCER,
+    GOODS_HANDLER,
+    MONUMENT,
+    PLACE_OF_WORSHIP,
+    RESTAURANT,
+    SHOP,
 }

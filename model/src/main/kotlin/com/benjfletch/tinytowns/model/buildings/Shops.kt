@@ -23,7 +23,10 @@ import kotlinx.serialization.Transient
 import kotlin.reflect.KClass
 
 /** Super interface for all Shops (Yellow) implemented in the game */
-interface Shop: Building
+interface Shop: Building {
+    override val buildingType: BuildingType
+        get() = BuildingType.SHOP
+}
 
 @Serializable
 @SerialName("bakery")

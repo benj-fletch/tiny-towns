@@ -14,12 +14,14 @@ object TestBuilding: Building {
     val resourceMatrix = listOf(listOf(WOOD(), STONE()), listOf(NONE(), GLASS()))
 
     override val pieceName = "test"
+    override val buildingType = BuildingType.COTTAGE
     override val text = "A test building"
     override val shape = Shape(resourceMatrix)
 }
 
 object TestAnywhereBuilding: Building {
     override val pieceName = "anywhereBuilding"
+    override val buildingType = BuildingType.ATTRACTION
     override val text = ""
     override val shape = Shape(listOf(listOf(GLASS())))
     override val canBeBuiltAnywhere = true

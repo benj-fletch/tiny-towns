@@ -10,7 +10,7 @@ import com.benjfletch.tinytowns.model.buildings.TestRestaurant
 import org.junit.jupiter.params.provider.Arguments
 import java.util.stream.Stream
 
-class AlmshouseScoringTest : AccumulativeScoringTest() {
+class AlmshouseScoringTest : AccumulativeConstructedScoringTest() {
     companion object {
         @JvmStatic
         fun scores(): Stream<Arguments> {
@@ -47,7 +47,7 @@ class FeastHallScoringTest: PlayerBasedScoringTest() {
     }
 }
 
-class TavernScoringTest : AccumulativeScoringTest() {
+class TavernScoringTest : AccumulativeConstructedScoringTest() {
     companion object {
         @JvmStatic
         fun scores(): Stream<Arguments> {

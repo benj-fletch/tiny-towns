@@ -66,7 +66,8 @@ fun GameGrid.contiguousGroupsOf(targetPiece: GamePiece): Set<Set<Location>> {
     val contiguousGroups = mutableSetOf<MutableSet<Location>>()
     val toVisit = this
         .mapKeys { Location.fromString(it.key) }
-        .filterValues { targetPiece::class.isInstance(it) }.keys.toMutableSet()
+        .filterValues { targetPiece::class.isInstance(it) }
+        .keys.toMutableSet()
 
     while (toVisit.isNotEmpty()) {
         val group = mutableSetOf<Location>()

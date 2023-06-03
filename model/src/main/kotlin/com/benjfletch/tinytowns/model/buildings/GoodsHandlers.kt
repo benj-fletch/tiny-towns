@@ -18,6 +18,9 @@ import kotlinx.serialization.Serializable
 
 /** Super interface for all "Goods Handlers" (Black) implemented in the game */
 interface GoodsHandler: Building {
+    override val buildingType: BuildingType
+        get() = BuildingType.GOODS_HANDLER
+
     val resourcesHeld: MutableList<Resource>
     val maxResources: Int
 

@@ -6,7 +6,7 @@ import com.benjfletch.tinytowns.model.buildings.Building
 import org.junit.jupiter.params.provider.Arguments
 import java.util.stream.Stream
 
-abstract class AccumulativeScoringTest : ScoringTest() {
+abstract class AccumulativeConstructedScoringTest : ScoringTest() {
     companion object {
         @JvmStatic
         fun accumulativeScoreParameters(toScore: Building, scores: List<Int>): Stream<Arguments> {

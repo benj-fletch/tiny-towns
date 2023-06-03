@@ -16,7 +16,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /** Super interface for all "Food Producers" (Red) implemented in the game */
-interface FoodProducer : Building, Feeder
+interface FoodProducer : Building, Feeder {
+    override val buildingType: BuildingType
+        get() = BuildingType.FOOD_PRODUCER
+}
 
 @Serializable
 @SerialName("orchard")

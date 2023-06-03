@@ -1,6 +1,6 @@
 package com.benjfletch.tinytowns.model
 
-import com.benjfletch.tinytowns.model.buildings.Shed
+import com.benjfletch.tinytowns.model.buildings.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

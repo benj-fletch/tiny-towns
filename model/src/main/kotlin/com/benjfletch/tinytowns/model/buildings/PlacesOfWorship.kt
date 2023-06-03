@@ -20,7 +20,10 @@ import kotlinx.serialization.Transient
 import kotlin.reflect.KClass
 
 /** Super interface for all "Places of Worship" (Orange) implemented in the game */
-interface PlaceOfWorship: Building
+interface PlaceOfWorship: Building {
+    override val buildingType: BuildingType
+        get() = BuildingType.PLACE_OF_WORSHIP
+}
 
 @Serializable
 @SerialName("abbey")

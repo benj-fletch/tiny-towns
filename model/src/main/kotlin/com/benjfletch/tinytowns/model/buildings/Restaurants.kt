@@ -15,7 +15,10 @@ import kotlinx.serialization.Transient
 import kotlin.reflect.KClass
 
 /** Super interface for all Restaurants (Green) implemented in the game */
-interface Restaurant: Building
+interface Restaurant: Building {
+    override val buildingType: BuildingType
+        get() = BuildingType.RESTAURANT
+}
 
 @Serializable
 @SerialName("almshouse")
@@ -39,7 +42,7 @@ data class FeastHall(
         listOf(WOOD(), WOOD(), GLASS()))),
 
     override val baseScore: Int = 2,
-    @Transient override val buildingType: KClass<out Building> = FeastHall::class,
+    @Transient override val scoringBuildingType: KClass<out Building> = FeastHall::class,
     override val bonusIfPlayerHasMore: Int = 1,
 ): Restaurant, MoreBuildingTypeThanOtherPlayerScore
 

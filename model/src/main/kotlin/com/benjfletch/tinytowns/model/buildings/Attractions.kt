@@ -12,7 +12,10 @@ import kotlinx.serialization.Transient
 import kotlin.reflect.KClass
 
 /** Super interface for all Attraction (Grey) implemented in the game */
-interface Attraction : Building
+interface Attraction : Building {
+    override val buildingType: BuildingType
+        get() = BuildingType.ATTRACTION
+}
 
 @Serializable
 @SerialName("fountain")
