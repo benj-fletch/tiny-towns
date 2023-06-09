@@ -1,2 +1,2 @@
 rootProject.name = "tiny-towns"
-include("model")
+include("model", "api")

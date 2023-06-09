@@ -52,18 +52,18 @@ class BoardTest {
     fun `Handles 0 size board`() {
         assertThatCode { Board(0) }
                 .isInstanceOf(BoardException::class.java)
-                .hasMessage("Board size 0 is invalid. Must be > 1.")
+                .hasMessage("Board size 0 is invalid. Must be > 1")
     }
 
     @Test
     fun `Handles negative size board`() {
         assertThatCode { Board(-1) }
                 .isInstanceOf(BoardException::class.java)
-                .hasMessage("Board size -1 is invalid. Must be > 1.")
+                .hasMessage("Board size -1 is invalid. Must be > 1")
 
         assertThatCode { Board(-100) }
                 .isInstanceOf(BoardException::class.java)
-                .hasMessage("Board size -100 is invalid. Must be > 1.")
+                .hasMessage("Board size -100 is invalid. Must be > 1")
     }
 
     @Test
@@ -85,12 +85,12 @@ class BoardTest {
     @Test
     fun `Throws Exception when placing to a which location is not on the board`() {
         val resource = BRICK()
-        assertThrowsBoardException("-1:0 is out of bounds.") { board.place(Location(-1, 0), resource) }
-        assertThrowsBoardException("0:-1 is out of bounds.") { board.place(Location(0, -1), resource) }
-        assertThrowsBoardException("-1:-1 is out of bounds.") { board.place(Location(-1, -1), resource) }
-        assertThrowsBoardException("5:0 is out of bounds.") { board.place(Location(5, 0), resource) }
-        assertThrowsBoardException("0:5 is out of bounds.") { board.place(Location(0, 5), resource) }
-        assertThrowsBoardException("5:5 is out of bounds.") { board.place(Location(5, 5), resource) }
+        assertThrowsBoardException("-1:0 is out of bounds") { board.place(Location(-1, 0), resource) }
+        assertThrowsBoardException("0:-1 is out of bounds") { board.place(Location(0, -1), resource) }
+        assertThrowsBoardException("-1:-1 is out of bounds") { board.place(Location(-1, -1), resource) }
+        assertThrowsBoardException("5:0 is out of bounds") { board.place(Location(5, 0), resource) }
+        assertThrowsBoardException("0:5 is out of bounds") { board.place(Location(0, 5), resource) }
+        assertThrowsBoardException("5:5 is out of bounds") { board.place(Location(5, 5), resource) }
     }
 
     @Test
@@ -98,7 +98,7 @@ class BoardTest {
         val resource = BRICK()
         board.place(origin, resource)
 
-        assertThrowsBoardException("$origin is occupied by ${resource.pieceName}.") {
+        assertThrowsBoardException("$origin is occupied by ${resource.pieceName}") {
             board.place(origin, resource)
         }
     }
@@ -138,7 +138,7 @@ class BoardTest {
 
     @Test
     fun `Throws Exception when removing from an out of bounds location`() {
-        assertThrowsBoardException("100:100 is out of bounds.") { board.remove(outOfBounds) }
+        assertThrowsBoardException("100:100 is out of bounds") { board.remove(outOfBounds) }
     }
 
     @Test
@@ -161,7 +161,7 @@ class BoardTest {
 
     @Test
     fun `Throws exception when trying to build building at out of bounds location`() {
-        assertThrowsBoardException("100:100 is out of bounds.") {
+        assertThrowsBoardException("100:100 is out of bounds") {
             board.build(emptyMap(), outOfBounds, TestBuilding)
         }
     }

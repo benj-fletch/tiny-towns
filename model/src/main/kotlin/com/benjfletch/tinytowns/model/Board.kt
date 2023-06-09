@@ -11,7 +11,7 @@ data class Board(val size: Int = 4) {
     val gameGrid: MutableMap<String, GamePiece> = mutableMapOf()
 
     init {
-        if (size < 1) throw BoardException("Board size $size is invalid. Must be > 1.")
+        if (size < 1) throw BoardException("Board size $size is invalid. Must be > 1")
         val boardSize = IntRange(1, size)
         rangesAsLocations(boardSize, boardSize)
                 .map { it.toString() to EmptySpace() }
@@ -70,6 +70,7 @@ data class Board(val size: Int = 4) {
     fun build(components: Map<Location, Resource>, targetLocation: Location, targetBuilding: Building) {
         checkLocationIsOnBoard(targetLocation)
         checkBuildLocationValid(components.keys, targetLocation, targetBuilding)
+        checkResourcesAreAtLocations(components, targetLocation, targetBuilding)
         targetBuilding.matrixMatches(components.toResourceMatrix())
         components
                 .filter { it.value.removeAfterBuild() }
@@ -102,7 +103,7 @@ data class Board(val size: Int = 4) {
     }
     private fun checkLocationIsOnBoard(location: String) {
         if (!gameGrid.containsKey(location)) {
-            throw BoardException("$location is out of bounds.")
+            throw BoardException("$location is out of bounds")
         }
     }
 
@@ -114,7 +115,7 @@ data class Board(val size: Int = 4) {
     private fun checkLocationIsUnoccupied(location: String) {
         checkLocationIsOnBoard(location)
         if (gameGrid[location] != EmptySpace()) {
-            throw BoardException("$location is occupied by ${gameGrid[location]?.pieceName}.")
+            throw BoardException("$location is occupied by ${gameGrid[location]?.pieceName}")
         }
     }
 
@@ -141,6 +142,12 @@ data class Board(val size: Int = 4) {
             } else {
                 throw BoardException("Cannot build at $targetLocation. Location has to be one of ${componentLocations.joinToString(",")}")
             }
+        }
+    }
+
+    private fun checkResourcesAreAtLocations(components: Map<Location, Resource>, targetLocation: Location, targetBuilding: Building) {
+        if(components.any { gameGrid[it.key.toString()] != it.value }) {
+            throw BoardException("Cannot build $targetBuilding at $targetLocation. Resources are not valid")
         }
     }
 }
