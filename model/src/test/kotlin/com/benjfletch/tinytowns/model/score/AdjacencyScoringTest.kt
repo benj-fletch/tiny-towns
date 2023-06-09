@@ -10,7 +10,7 @@ abstract class AdjacencyScoringTest: ScoringTest() {
         @JvmStatic
         fun fullAdjacencyParameters(toScore: Building, adjacentBuilding: Building, scores: List<Int>): List<Arguments> {
             return IntRange(0, 4)
-                    .map {adjacencyParameters(toScore, it, adjacentBuilding, scores[it])}
+                    .map { adjacencyParameters(toScore, it, adjacentBuilding, scores[it]) }
                     .toList()
         }
 

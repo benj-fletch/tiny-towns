@@ -9,6 +9,7 @@ import com.benjfletch.tinytowns.model.STONE
 import com.benjfletch.tinytowns.model.Shape
 import com.benjfletch.tinytowns.model.WHEAT
 import com.benjfletch.tinytowns.model.WOOD
+import com.benjfletch.tinytowns.model.buildings.BuildingType.*
 import com.benjfletch.tinytowns.model.buildings.monument.Monument
 import com.benjfletch.tinytowns.model.centerSpaces
 import com.benjfletch.tinytowns.model.col
@@ -25,7 +26,7 @@ import kotlin.reflect.KClass
 /** Super interface for all Shops (Yellow) implemented in the game */
 interface Shop: Building {
     override val buildingType: BuildingType
-        get() = BuildingType.SHOP
+        get() = SHOP
 }
 
 @Serializable
@@ -37,7 +38,7 @@ data class Bakery(
         listOf(NONE(), WHEAT(), NONE()),
         listOf(BRICK(), GLASS(), BRICK()))),
 
-    @Transient override val adjacentTypes: List<KClass<out Building>> = listOf(FoodProducer::class, GoodsHandler::class),
+    @Transient override val adjacentTypes: List<BuildingType> = listOf(FOOD_PRODUCER, GOODS_HANDLER),
     override val scoreWhenAdjacent: Int = 3,
 ): Shop, IfAdjacentScore
 

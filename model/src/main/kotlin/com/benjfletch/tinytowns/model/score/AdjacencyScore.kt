@@ -4,27 +4,33 @@ import com.benjfletch.tinytowns.model.GameGrid
 import com.benjfletch.tinytowns.model.Location
 import com.benjfletch.tinytowns.model.adjacentPieces
 import com.benjfletch.tinytowns.model.buildings.Building
-import kotlin.reflect.KClass
+import com.benjfletch.tinytowns.model.buildings.BuildingType
 
 /**
- * Interface to represent a [ScoringPiece] who's score is dependant on the Building which surround it.
+ * Interface to represent a [ScoringPiece] who's score is dependent on the Building which surround it.
  */
 interface AdjacencyScore : ScoringPiece {
     /** Collection of [Buildings][Building] which this [ScoringPiece] will gain points for being next to */
-    val adjacentTypes: Iterable<KClass<out Building>>
+    val adjacentTypes: Iterable<BuildingType>
 
     /**
      * Helper method to determine if a [location] has any of [adjacentTypes] adjacent (up, down, left, right) to it
      */
     fun isAdjacent(location: Location, gameGrid: GameGrid): Boolean {
-        return gameGrid.adjacentPieces(location).any { piece -> adjacentTypes.any { it.isInstance(piece) } }
+        return gameGrid.adjacentPieces(location)
+            .filterIsInstance<Building>()
+            .any { adjacentTypes.contains(it.buildingType) }
+    }
+
+    fun adjacentBuildings(location: Location, gameGrid: GameGrid): List<Building> {
+        return gameGrid.adjacentPieces(location).filterIsInstance<Building>()
     }
 
     /**
      * Helper method to calculate the number of [adjacentTypes] buildings adjacent to [location]
      */
     fun numberOfAdjacent(location: Location, gameGrid: GameGrid): Int {
-        return gameGrid.adjacentPieces(location).count { piece -> adjacentTypes.any { it.isInstance(piece) } }
+        return adjacentBuildings(location, gameGrid).count { adjacentTypes.contains(it.buildingType) }
     }
 }
 
@@ -61,5 +67,15 @@ interface AccumulativeAdjacencyScore: AdjacencyScore {
 
     override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
         return numberOfAdjacent(pieceLocation, gameGrid) * scorePerAdjacent
+    }
+}
+
+interface UniqueAdjacencyScore: AdjacencyScore {
+    val scorePerAdjacent: Int
+
+    override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
+        return adjacentBuildings(pieceLocation, gameGrid)
+            .distinct()
+            .sumOf { scorePerAdjacent }
     }
 }

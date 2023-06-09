@@ -9,6 +9,7 @@ import com.benjfletch.tinytowns.model.STONE
 import com.benjfletch.tinytowns.model.Shape
 import com.benjfletch.tinytowns.model.WOOD
 import com.benjfletch.tinytowns.model.adjacentPieces
+import com.benjfletch.tinytowns.model.buildings.BuildingType.*
 import com.benjfletch.tinytowns.model.cornerSpaces
 import com.benjfletch.tinytowns.model.score.AccumulativeScore
 import com.benjfletch.tinytowns.model.score.IfAdjacentScore
@@ -17,12 +18,11 @@ import com.benjfletch.tinytowns.model.score.SpecifiedPositionScore
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlin.reflect.KClass
 
 /** Super interface for all "Places of Worship" (Orange) implemented in the game */
 interface PlaceOfWorship: Building {
     override val buildingType: BuildingType
-        get() = BuildingType.PLACE_OF_WORSHIP
+        get() = PLACE_OF_WORSHIP
 }
 
 @Serializable
@@ -36,7 +36,7 @@ data class Abbey(
     )),
 
     override val scoreWhenNotAdjacent: Int = 3,
-    @Transient override val adjacentTypes: List<KClass<out Building>> = listOf(GoodsHandler::class, Restaurant::class, Shop::class),
+    @Transient override val adjacentTypes: List<BuildingType> = listOf(GOODS_HANDLER, RESTAURANT, SHOP),
 ): PlaceOfWorship, NotAdjacentScore
 
 @Serializable
@@ -79,7 +79,7 @@ data class Temple(
         listOf(NONE(), NONE(), GLASS()),
         listOf(BRICK(), BRICK(), STONE()))),
 
-    @Transient override val adjacentTypes: List<KClass<Cottage>> = listOf(Cottage::class),
+    @Transient override val adjacentTypes: List<BuildingType> = listOf(COTTAGE),
     override val scoreWhenAdjacent: Int = 4,
 ): PlaceOfWorship, IfAdjacentScore {
     override fun score(pieceLocation: Location, gameGrid: GameGrid, otherPlayerGrid: GameGrid?): Int {
