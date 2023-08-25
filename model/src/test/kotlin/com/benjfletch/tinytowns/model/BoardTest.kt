@@ -5,7 +5,7 @@ import com.benjfletch.tinytowns.BuildingException
 import com.benjfletch.tinytowns.model.buildings.TestAnywhereBuilding
 import com.benjfletch.tinytowns.model.buildings.TestBuilding
 import com.benjfletch.tinytowns.model.buildings.UnfedCottage
-import kotlinx.serialization.decodeFromString
+import com.benjfletch.tinytowns.model.buildings.monument.Monument
 import kotlinx.serialization.encodeToString
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatCode
@@ -225,6 +225,25 @@ class BoardTest {
         val serialized = getSerializer().encodeToString(board)
         val deserialized = getSerializer().decodeFromString<Board>(serialized)
         assertThat(board).isEqualTo(deserialized)
+    }
+
+    @Test
+    fun `calls onBuild for monument constructions`() {
+        val board = Board()
+        val monument = object: Monument {
+            override val pieceName = "test"
+            override val text = ""
+            override val shape = Shape(listOf(listOf(GLASS())))
+            var hasBeenBuilt = false
+
+            override fun onBuild(gameGrid: GameGrid) {
+                hasBeenBuilt = true
+            }
+        }
+        assertThat(monument.hasBeenBuilt).isFalse
+        board.place(oneOne, GLASS())
+        board.build(mapOf(oneOne to GLASS()), oneOne, monument)
+        assertThat(monument.hasBeenBuilt).isTrue
     }
 
     private fun buildCottage() {

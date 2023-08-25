@@ -3,6 +3,7 @@ package com.benjfletch.tinytowns.model
 import com.benjfletch.tinytowns.BoardException
 import com.benjfletch.tinytowns.model.buildings.Building
 import com.benjfletch.tinytowns.model.buildings.Feeder
+import com.benjfletch.tinytowns.model.buildings.monument.Monument
 import kotlinx.serialization.Serializable
 
 /** Representation of the game board, with a configurable size */
@@ -75,6 +76,9 @@ data class Board(val size: Int = 4) {
                 .filter { it.value.removeAfterBuild() }
                 .forEach { remove(it.key) }
         place(targetLocation, targetBuilding)
+        if (targetBuilding is Monument) {
+            targetBuilding.onBuild(gameGrid)
+        }
     }
 
     fun build(components: Map<String, Resource>, targetLocation: String, targetBuilding: Building) {
